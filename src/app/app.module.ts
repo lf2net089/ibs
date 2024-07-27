@@ -5,7 +5,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { registerLocaleData } from '@angular/common';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import en from '@angular/common/locales/en';
 import zh from '@angular/common/locales/zh';
 
@@ -19,7 +21,9 @@ registerLocaleData(zh);
     NzButtonModule,
     NzMenuModule,
     NzLayoutModule,
-    NzIconModule
+    NzIconModule,
+    NzBreadCrumbModule,
+    BreadcrumbModule
   ],
   providers: []
 })

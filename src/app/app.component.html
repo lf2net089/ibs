@@ -1,50 +1,25 @@
-<nz-layout>
-  <nz-header class="bg-warning text-center" style="background-color: #FFCC00;">
+<nz-layout class="app-layout">
+  <nz-header class="bg-warning text-center app-header">
     <div class="logo">
       <h1>網站標題</h1>
     </div>
-    <nav class="menubar">
-      <a nz-button nzType="link" href="#" style="color: #D40511;">首頁</a>
-      <a nz-button nzType="link" href="#" style="color: #D40511;">關於我們</a>
-      <a nz-button nzType="link" href="#" style="color: #D40511;">服務</a>
-      <a nz-button nzType="link" href="#" style="color: #D40511;">聯絡我們</a>
-    </nav>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li nz-menu-item>首頁</li>
+      <li nz-menu-item>關於我們</li>
+      <li nz-menu-item>服務</li>
+      <li nz-menu-item>聯絡我們</li>
+    </ul>
   </nz-header>
-
-  <nz-layout>
-    <nz-sider style="background-color: #333;">
-      <div class="logo" style="color: white; text-align: center;">
-        <h2>左側邊欄</h2>
-      </div>
-      <ul nz-menu nzMode="vertical" style="height: 100%;">
-        <li nz-menu-item>項目 1</li>
-        <li nz-menu-item>項目 2</li>
-        <li nz-menu-item>項目 3</li>
-      </ul>
-    </nz-sider>
-
-    <nz-content style="padding: 0 50px;">
-      <div style="background: #fff; padding: 24px; min-height: 280px;">
-        <h2>主要內容</h2>
-        <p>這是網頁的主要內容區域。</p>
-        <button nz-button nzType="primary" style="background-color: #FFCC00; border-color: #FFCC00;">主要按鈕</button>
-        <button nz-button nzType="default" style="color: #333; border-color: #d9d9d9;">次要按鈕</button>
-      </div>
-    </nz-content>
-
-    <nz-sider style="background-color: #333;">
-      <div class="logo" style="color: white; text-align: center;">
-        <h2>右側邊欄</h2>
-      </div>
-      <ul nz-menu nzMode="vertical" style="height: 100%;">
-        <li nz-menu-item>項目 A</li>
-        <li nz-menu-item>項目 B</li>
-        <li nz-menu-item>項目 C</li>
-      </ul>
-    </nz-sider>
-  </nz-layout>
-
-  <nz-footer class="bg-warning text-center mt-5" style="background-color: #FFCC00;">
+  <nz-content class="app-content">
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+    <div class="inner-content" style="background: #fff; padding: 24px; min-height: 280px;">
+      <h2>主要內容</h2>
+      <p>這是網頁的主要內容區域。</p>
+      <button nz-button nzType="primary">主要按鈕</button>
+      <button nz-button nzType="default">次要按鈕</button>
+    </div>
+  </nz-content>
+  <nz-footer class="bg-warning text-center app-footer">
     <p>版權所有 &copy; 2023</p>
   </nz-footer>
 </nz-layout>
