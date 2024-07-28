@@ -1,38 +1,41 @@
-<nz-layout class="app-layout">
-  <nz-header class="bg-warning text-center app-header">
-    <div class="logo" style="display: flex; align-items: center;">
+<nz-layout class="app-layout container-fluid">
+  <nz-header class="bg-warning text-center app-header row align-items-center">
+    <div class="logo col-4 d-flex align-items-center">
       <img src="assets/dhl-logo.svg" alt="DHL Logo" style="height: 32px; margin-right: 20px;">
       <h1 style="margin: 0;"></h1>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" class="col-8 d-flex justify-content-end">
       <li nz-menu-item *ngFor="let item of mainMenuItems" (click)="onMenuItemClick(item)">
-        {{ item }}
+        {{ item.title }}
       </li>
     </ul>
   </nz-header>
-
-  <nz-header class="app-sub-header">
-    <ul nz-menu nzMode="horizontal">
-      <li nz-menu-item *ngFor="let item of subMenuItems" (click)="onMenuItemClick(item)">
-        {{ item }}
-      </li>
+  <nz-header class="app-sub-header row align-items-center">
+    <ul nz-menu nzMode="horizontal" class="col-12 d-flex justify-content-start">
+      <ng-container *ngFor="let item of subMenuItems">
+        <li nz-menu-item *ngIf="!item.children" (click)="onMenuItemClick(item)">
+          {{ item.title }}
+        </li>
+        <li nz-submenu *ngIf="item.children" nzTitle="{{ item.title }}">
+          <ul>
+            <li nz-menu-item *ngFor="let child of item.children" (click)="onMenuItemClick(child)">
+              {{ child.title }}
+            </li>
+          </ul>
+        </li>
+      </ng-container>
     </ul>
   </nz-header>
-
-  <nz-content class="app-content">
-    <p-breadcrumb [model]="items" class="breadcrumb-style"></p-breadcrumb>
-    <mat-grid-list cols="1" rowHeight="auto">
-      <mat-grid-tile>
-        <div class="inner-content" style="background: #fff; padding: 24px; min-height: 280px;">
-          <h2>主要內容</h2>
-          <p>這是網頁的主要內容區域。</p>
-          <button nz-button nzType="primary">主要按鈕</button>
-          <button nz-button nzType="default">次要按鈕</button>
-        </div>
-      </mat-grid-tile>
-    </mat-grid-list>
+  <nz-content class="app-content row">
+    <div class="col-12">
+      <div class="breadcrumb-container">
+        <p-breadcrumb [model]="items" class="breadcrumb-style"></p-breadcrumb>
+      </div>
+      <div class="inner-content">
+        <h2>主要內容</h2>
+        <p>這是網頁的主要內容區域。</p>
+        <button nz-button nzType="primary">主要按鈕</button>
+      </div>
+    </div>
   </nz-content>
-  <nz-footer class="bg-warning text-center app-footer">
-    <p>版權所有 &copy; 2023</p>
-  </nz-footer>
 </nz-layout>

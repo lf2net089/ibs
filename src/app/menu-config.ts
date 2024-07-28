@@ -1,17 +1,24 @@
-export const mainMenuItems: string[] = [
-  '首頁',
-  '關於我們',
-  '服務',
-  '聯絡我們'
+export const mainMenuItems: any[] = [
+  { title: '首頁' },
+  { title: '關於我們' },
+  { title: '服務' },
+  { title: '聯絡我們' }
 ];
-export const menuItems: string[] = [
-  '帳單',
-  '發票',
-  '折讓單',
-  '收據',
-  '財務申報',
-  '維護',
-  '查詢',
-  '設定',
-  '權限'
+
+export const menuItems: any[] = [
+  { title: '帳單' },
+  { title: '發票' },
+  { title: '折讓單' },
+  { title: '收據' },
+  { title: '財務申報' },
+  {
+    title: '維護',
+    children: [
+      { title: '系統維護' },
+      { title: '資料維護' }
+    ]
+  },
+  { title: '查詢' },
+  { title: '設定' },
+  { title: '權限' }
 ];

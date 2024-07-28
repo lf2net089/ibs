@@ -1,23 +1,47 @@
-// 导入 ng-zorro-antd 的主题文件
+// Import ng-zorro-antd theme file
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
 
-// 设置主题变量
-@primary-color: #FFCC00;  // DHL 黄
-@link-color: #D40511;    // DHL 红
-@success-color: #52c41a; // 绿色
-@warning-color: #faad14; // 橙色
-@error-color: #f5222d;   // 红色
-@font-size-base: 14px;   // 主字体大小
-@heading-color: #001529; // 标题颜色
-@text-color: #333;       // 主文本颜色
-@text-color-secondary: #aaa; // 次文本颜色
-@disabled-color: #f5f5f5; // 失效颜色
-@border-radius-base: 4px; // 组件/浮层圆角
-@border-color-base: #d9d9d9; // 边框颜色
-@box-shadow-base: 0 3px 6px rgba(0, 0, 0, 0.16); // 浮层阴影
+// Set theme variables
+@primary-color: #FFCC00;  // DHL Yellow
+@link-color: #D40511;    // DHL Red
+@success-color: #52c41a; // Green
+@warning-color: #faad14; // Orange
+@error-color: #f5222d;   // Red
+@font-size-base: 14px;   // Base font size
+@heading-color: #001529; // Heading color
+@text-color: #333;       // Primary text color
+@text-color-secondary: #aaa; // Secondary text color
+@disabled-color: #f5f5f5; // Disabled color
+@border-radius-base: 4px; // Component/overlay border radius
+@border-color-base: #d9d9d9; // Border color
+@box-shadow-base: 0 3px 6px rgba(0, 0, 0, 0.16); // Overlay shadow
 
-@import "./app/app.component.less";
+// Naming color variables
+@dhl-yellow: @primary-color;  // DHL Yellow
+@dhl-red: @link-color;        // DHL Red
+@dhl-green: @success-color;   // Green
+@dhl-orange: @warning-color;  // Orange
+@dhl-dark-red: @error-color;  // Dark Red
+@dhl-heading-color: @heading-color; // Heading color
+@dhl-text-color: @text-color; // Primary text color
+@dhl-text-secondary-color: @text-color-secondary; // Secondary text color
+@dhl-disabled-color: @disabled-color; // Disabled color
+@dhl-border-color: @border-color-base; // Border color
+@dhl-box-shadow: @box-shadow-base; // Overlay shadow
+@dhl-background-color: #fff; // Background color
+@dhl-white: #fff; // White
+@dhl-black: #000; // Black
 
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: @dhl-yellow;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

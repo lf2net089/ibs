@@ -1,3 +1,5 @@
+@import "../styles.less";
+
 :host {
   display: flex;
   flex-direction: column;
@@ -5,71 +7,116 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: @dhl-yellow;
+  overflow: hidden; /* Disable scrollbars */
 }
 
 .app-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: @dhl-yellow;
+  overflow: hidden; /* Disable scrollbars */
 }
 
 .menu-sidebar {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  background-color: @dhl-yellow;
 }
 
-.app-header, .app-sub-header {
+.app-header, .app-sub-header, .app-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
   width: 100vw; /* Full width */
   z-index: 1000;
-  background: #FFCC00;
+  background: @dhl-yellow !important;
+  margin: 0;
+  padding: 0;
 }
 
-.app-header .menubar, .app-sub-header ul[nz-menu] {
+.app-header .menubar, .app-sub-header ul[nz-menu], .app-footer {
   display: flex;
   gap: 10px;
-  background: #FFCC00;
+  background: @dhl-yellow !important;
 }
 
-.app-header ul[nz-menu] li[nz-menu-item] {
-  font-weight: normal; /* Set font weight to normal */
-  font-size: 1rem; /* Default font size */
-}
-
-.app-sub-header ul[nz-menu] li[nz-menu-item] {
+.app-header ul[nz-menu] li[nz-menu-item],
+.app-sub-header ul[nz-menu] li[nz-menu-item],
+.app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title] > span,
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item],
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu] > div[nz-submenu-title] > span {
   font-weight: bold; /* Set font weight to bold */
   font-size: 1.2rem; /* Increase font size */
+  color: @dhl-black !important; /* Set text color to black */
 }
 
+.app-header ul[nz-menu] li[nz-menu-item]:hover,
 .app-sub-header ul[nz-menu] li[nz-menu-item]:hover,
-.app-header ul[nz-menu] li[nz-menu-item]:hover {
-  background-color: #FF9933 !important; /* Deep orange color on hover */
+.app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title]:hover,
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item]:hover,
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu] > div[nz-submenu-title]:hover {
+  background-color: @dhl-orange !important; /* Deep orange color on hover */
+}
+
+.app-sub-header ul[nz-menu] li[nz-menu-item].ant-menu-item-selected,
+.app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title].ant-menu-item-selected,
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item].ant-menu-item-selected,
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu] > div[nz-submenu-title].ant-menu-item-selected {
+  background-color: @dhl-orange !important; /* Deep orange color when selected */
+  color: @dhl-black !important; /* Keep text color black */
 }
 
 nz-header ul[nz-menu] {
-  background-color: #FFCC00 !important; /* Change menu background color */
+  background-color: @dhl-yellow !important; /* Change menu background color */
 }
 
 nz-content {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 24px;
+  padding: 0 24px; /* Remove top and bottom padding */
+  background-color: @dhl-background-color; /* Ensure consistent content background color */
 }
 
 .inner-content {
   padding: 24px;
-  background: #fff;
+  background: @dhl-background-color; /* Use defined background color */
   height: 100%;
+  margin-top: -37px; /* Reduce margin to make it closer to breadcrumb */
+}
+
+.breadcrumb-container {
+  padding: 0;
+  margin-top: 5px;
+  margin-left: -13px;
+}
+
+.p-breadcrumb {
+  font-size: 1.2rem !important;
+  font-weight: bold !important;
+  color: @dhl-black !important;
+  padding: 0; /* Remove padding to make it closer to the top */
+  margin: 5; /* Remove margin to make it closer to the top */
+}
+
+.breadcrumb-style {
+  color: @dhl-black !important; /* Set text color to black */
+  font-size: 1rem !important; /* Set font size smaller than the sub-header */
+}
+
+.p-menuitem, .p-menuitem-text {
+  font-size: 1.2rem !important;
+  font-weight: bold !important;
+  color: @dhl-black !important;
 }
 
 .app-footer {
   text-align: center;
-  background: #FFCC00;
+  background: @dhl-yellow !important;
   padding: 10px;
   width: 100vw; /* Full width */
   z-index: 1000;
@@ -78,9 +125,9 @@ nz-content {
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   height: 64px;
-  background: #FFCC00;
+  background: @dhl-yellow;
 }
 
 .sidebar-logo img {
@@ -91,7 +138,7 @@ nz-content {
 
 .sidebar-logo h1 {
   margin: 0 0 0 20px;
-  color: #fff;
+  color: @dhl-white; /* Set text color to white */
   font-weight: 600;
   font-size: 14px;
   font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
@@ -107,16 +154,5 @@ nz-content {
 }
 
 .trigger:hover {
-  color: #000;
+  color: @dhl-black;
 }
-
-.p-breadcrumb {
-  font-size: 1.2rem !important;
-}
-
-
-
-.p-menuitem-text {
-  color: hsl(0, 2%, 24%) !important;
-}
-
