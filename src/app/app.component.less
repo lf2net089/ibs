@@ -44,7 +44,21 @@
   background: @dhl-yellow !important;
 }
 
-.app-header ul[nz-menu] li[nz-menu-item],
+.app-header ul[nz-menu].main-menu li[nz-menu-item] {
+  font-weight: normal; /* Set font weight to normal */
+  font-size: 1rem; /* Default font size */
+  color: @dhl-white !important; /* Set text color to white */
+}
+
+.app-header ul[nz-menu].main-menu li[nz-menu-item]:hover {
+  background-color: @dhl-orange !important; /* Deep orange color on hover */
+}
+
+.app-header ul[nz-menu].main-menu li[nz-menu-item].ant-menu-item-selected {
+  background-color: @dhl-orange !important; /* Deep orange color when selected */
+  color: @dhl-white !important; /* Keep text color white */
+}
+
 .app-sub-header ul[nz-menu] li[nz-menu-item],
 .app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title] > span,
 .app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item],
@@ -54,7 +68,6 @@
   color: @dhl-black !important; /* Set text color to black */
 }
 
-.app-header ul[nz-menu] li[nz-menu-item]:hover,
 .app-sub-header ul[nz-menu] li[nz-menu-item]:hover,
 .app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title]:hover,
 .app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item]:hover,

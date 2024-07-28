@@ -4,12 +4,13 @@
       <img src="assets/dhl-logo.svg" alt="DHL Logo" style="height: 32px; margin-right: 20px;">
       <h1 style="margin: 0;"></h1>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="horizontal" class="col-8 d-flex justify-content-end">
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" class="col-8 d-flex justify-content-end main-menu">
       <li nz-menu-item *ngFor="let item of mainMenuItems" (click)="onMenuItemClick(item)">
         {{ item.title }}
       </li>
     </ul>
   </nz-header>
+
   <nz-header class="app-sub-header row align-items-center">
     <ul nz-menu nzMode="horizontal" class="col-12 d-flex justify-content-start">
       <ng-container *ngFor="let item of subMenuItems">
@@ -26,6 +27,7 @@
       </ng-container>
     </ul>
   </nz-header>
+
   <nz-content class="app-content row">
     <div class="col-12">
       <div class="breadcrumb-container">
@@ -35,7 +37,14 @@
         <h2>主要內容</h2>
         <p>這是網頁的主要內容區域。</p>
         <button nz-button nzType="primary">主要按鈕</button>
+        <button nz-button nzType="default">次要按鈕</button>
       </div>
     </div>
   </nz-content>
+
+  <nz-footer class="bg-warning text-center app-footer row align-items-center">
+    <div class="col-12">
+      <p>版權所有 &copy; 2023</p>
+    </div>
+  </nz-footer>
 </nz-layout>
