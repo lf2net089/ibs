@@ -35,12 +35,23 @@
   background: #FFCC00;
 }
 
-nz-header ul[nz-menu] {
-  background-color: #FFCC00 !important; /* Change menu background color */
+.app-header ul[nz-menu] li[nz-menu-item] {
+  font-weight: normal; /* Set font weight to normal */
+  font-size: 1rem; /* Default font size */
 }
 
-nz-header ul[nz-menu] li[nz-menu-item]:hover {
+.app-sub-header ul[nz-menu] li[nz-menu-item] {
+  font-weight: bold; /* Set font weight to bold */
+  font-size: 1.2rem; /* Increase font size */
+}
+
+.app-sub-header ul[nz-menu] li[nz-menu-item]:hover,
+.app-header ul[nz-menu] li[nz-menu-item]:hover {
   background-color: #FF9933 !important; /* Deep orange color on hover */
+}
+
+nz-header ul[nz-menu] {
+  background-color: #FFCC00 !important; /* Change menu background color */
 }
 
 nz-content {
@@ -96,5 +107,16 @@ nz-content {
 }
 
 .trigger:hover {
-  color: #1890ff;
+  color: #000;
 }
+
+.p-breadcrumb {
+  font-size: 1.2rem !important;
+}
+
+
+
+.p-menuitem-text {
+  color: hsl(0, 2%, 24%) !important;
+}
+

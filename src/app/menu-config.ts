@@ -1,4 +1,9 @@
-// src/app/menu-config.ts
+export const mainMenuItems: string[] = [
+  '首頁',
+  '關於我們',
+  '服務',
+  '聯絡我們'
+];
 export const menuItems: string[] = [
   '帳單',
   '發票',
