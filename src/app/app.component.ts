@@ -5,6 +5,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { menuItems } from './menu-config';
 
 @Component({
   selector: 'app-root',
@@ -16,16 +17,15 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 export class AppComponent implements OnInit {
   isCollapsed = false;
   items: any[] = [];
+  menuItems = menuItems;
 
-  constructor() {
-    this.items = [];
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.items = [
-      { label: 'Home', url: 'home' },
-      { label: 'List', url: 'list' },
-      { label: 'App', url: 'app' }
-    ];
+    this.items = [{ label: '首頁' }];
+  }
+
+  onMenuItemClick(menuItem: string) {
+    this.items = [{ label: menuItem }];
   }
 }
