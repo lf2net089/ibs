@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { mainMenuItems, menuItems } from './menu-config';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -29,35 +30,70 @@ export class AppComponent implements OnInit {
   };
 
   constructor(private router: Router) {
-    this.items = [];
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+      this.updateBreadcrumbFromUrl();
+    });
   }
 
   ngOnInit() {
+    this.updateBreadcrumbFromUrl();
+  }
+
+  updateBreadcrumbFromUrl() {
+    const urlSegments = this.router.url.split('/').filter(segment => segment);
     this.items = [];
+
+    this.items.push({ label: '首頁', url: '/' });
+
+    if (urlSegments.length === 0) {
+      return;
+    }
+
+    let currentUrl = '';
+    urlSegments.forEach(segment => {
+      currentUrl += `/${segment}`;
+      const menuItem = this.findMenuItemByUrl(currentUrl);
+
+      if (menuItem) {
+        if (menuItem.parent) {
+          this.items.push({ label: menuItem.parent.title, url: menuItem.parent.url });
+        }
+        this.items.push({ label: menuItem.title, url: menuItem.url || '#' });
+      }
+    });
   }
 
   onMenuItemClick(item: any, parentItem?: any) {
     if (parentItem) {
       this.selectedParentMenuItem = parentItem;
       this.selectedSubMenuItem = item;
-      this.updateBreadcrumb(item, parentItem);
-      this.router.navigate([item.url]);
     } else {
       this.selectedParentMenuItem = item;
       this.selectedSubMenuItem = null;
-      this.updateBreadcrumb(item);
-      this.router.navigate([item.url]);
     }
+    this.router.navigate([item.url]).then(() => {
+      this.updateBreadcrumbFromUrl();
+    });
   }
 
-  updateBreadcrumb(item: any, parentItem?: any) {
-    this.items = [];
-
-    if (parentItem) {
-      this.items.push({ label: parentItem.title, url: parentItem.url || '#' });
+  findMenuItemByUrl(url: string, parent: any = null) {
+    let menuItem = this.mainMenuItems.find(item => item.url === url);
+    if (menuItem) {
+      return { ...menuItem, parent };
     }
 
-    this.items.push({ label: item.title, url: item.url || '#' });
+    for (const parentItem of this.subMenuItems) {
+      if (parentItem.children) {
+        menuItem = parentItem.children.find(child => child.url === url);
+        if (menuItem) {
+          return { ...menuItem, parent: parentItem };
+        }
+      } else if (parentItem.url === url) {
+        return { ...parentItem, parent };
+      }
+    }
+
+    return null;
   }
 
   isParentMenuSelected(item: any): boolean {
