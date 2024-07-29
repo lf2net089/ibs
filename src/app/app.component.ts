@@ -43,8 +43,10 @@ export class AppComponent implements OnInit {
     const urlSegments = this.router.url.split('/').filter(segment => segment);
     this.items = [];
 
+    // Always add the home page as the first breadcrumb item
     this.items.push({ label: '首頁', url: '/' });
 
+    // If there are no other segments, we are on the home page
     if (urlSegments.length === 0) {
       return;
     }
@@ -55,10 +57,12 @@ export class AppComponent implements OnInit {
       const menuItem = this.findMenuItemByUrl(currentUrl);
 
       if (menuItem) {
-        if (menuItem.parent) {
+        if (menuItem.parent && menuItem.parent.url !== '/') {
           this.items.push({ label: menuItem.parent.title, url: menuItem.parent.url });
         }
-        this.items.push({ label: menuItem.title, url: menuItem.url || '#' });
+        if (menuItem.url !== '/' && menuItem.title !== '首頁') {
+          this.items.push({ label: menuItem.title, url: menuItem.url || '#' });
+        }
       }
     });
   }
