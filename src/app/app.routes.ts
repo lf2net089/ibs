@@ -14,7 +14,8 @@ import { QueryComponent } from './pages/query/query.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { PermissionsComponent } from './pages/permissions/permissions.component';
 import { HomeComponent } from './pages/home/home.component';
-const routes: Routes = [
+
+export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'services', component: ServicesComponent },
@@ -38,4 +39,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export { routes };
