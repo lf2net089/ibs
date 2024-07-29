@@ -1,36 +1,18 @@
 @import "../styles.less";
 
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: @dhl-yellow;
-  overflow: hidden; /* Disable scrollbars */
-}
-
-.app-layout {
+:host, .app-layout, .menu-sidebar {
   display: flex;
   flex-direction: column;
   height: 100vh;
   background-color: @dhl-yellow;
   overflow: hidden; /* Disable scrollbars */
-}
-
-.menu-sidebar {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  background-color: @dhl-yellow;
 }
 
 .app-header, .app-sub-header, .app-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: 66px;
   width: 100vw; /* Full width */
   z-index: 1000;
   background: @dhl-yellow !important;
@@ -50,12 +32,9 @@
   color: @dhl-white !important; /* Set text color to white */
 }
 
-.app-header ul[nz-menu].main-menu li[nz-menu-item]:hover {
-  background-color: @dhl-orange !important; /* Deep orange color on hover */
-}
-
+.app-header ul[nz-menu].main-menu li[nz-menu-item]:hover,
 .app-header ul[nz-menu].main-menu li[nz-menu-item].ant-menu-item-selected {
-  background-color: @dhl-orange !important; /* Deep orange color when selected */
+  background-color: @dhl-orange !important; /* Deep orange color on hover and when selected */
   color: @dhl-white !important; /* Keep text color white */
 }
 
@@ -71,16 +50,32 @@
 .app-sub-header ul[nz-menu] li[nz-menu-item]:hover,
 .app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title]:hover,
 .app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item]:hover,
-.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu] > div[nz-submenu-title]:hover {
-  background-color: @dhl-orange !important; /* Deep orange color on hover */
-}
-
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu] > div[nz-submenu-title]:hover,
 .app-sub-header ul[nz-menu] li[nz-menu-item].ant-menu-item-selected,
 .app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title].ant-menu-item-selected,
 .app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item].ant-menu-item-selected,
-.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu] > div[nz-submenu-title].ant-menu-item-selected {
-  background-color: @dhl-orange !important; /* Deep orange color when selected */
+.app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu] > div[nz-submenu-title].ant-menu-item-selected,
+.app-sub-header ul[nz-menu] li[nz-submenu].ant-menu-submenu-selected > div[nz-submenu-title],
+.app-sub-header ul[nz-menu] li[nz-submenu].ant-menu-submenu-selected > div[nz-submenu-title] > span {
+  background-color: @dhl-orange !important; /* Deep orange color on hover and when selected */
   color: @dhl-black !important; /* Keep text color black */
+}
+
+.app-sub-header ul[nz-menu] {
+  display: flex; /* 使用 flexbox 來排列子項目 */
+  flex-wrap: wrap; /* 允許子項目換行 */
+  gap: 0; /* 設定間隙為0 */
+}
+
+.app-sub-header ul[nz-menu] li[nz-menu-item],
+.app-sub-header ul[nz-menu] li[nz-submenu] > div[nz-submenu-title] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 95px; /* 設定固定寬度 */
+  box-sizing: border-box; /* 確保 padding 和 border 不會影響寬度 */
+  margin: 0;
 }
 
 nz-header ul[nz-menu] {

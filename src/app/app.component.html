@@ -19,7 +19,7 @@
         </li>
         <li nz-submenu *ngIf="item.children" nzTitle="{{ item.title }}">
           <ul>
-            <li nz-menu-item *ngFor="let child of item.children" (click)="onMenuItemClick(child)">
+            <li nz-menu-item *ngFor="let child of item.children" (click)="onMenuItemClick(child, item)">
               {{ child.title }}
             </li>
           </ul>

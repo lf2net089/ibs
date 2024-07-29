@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
   items: any[] = [];
   mainMenuItems = mainMenuItems;
   subMenuItems = menuItems;
+  selectedParentMenuItem: any = null;
+  selectedSubMenuItem: any = null;
 
   breadcrumbStyle = {
     color: '#000',
@@ -31,18 +33,35 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.items = [{ label: '首頁' }];
+    this.items = [];
   }
 
-  onMenuItemClick(item: any) {
-    console.log('Menu item clicked:', item);
-    this.updateBreadcrumb(item);
+  onMenuItemClick(item: any, parentItem?: any) {
+    if (parentItem) {
+      this.selectedParentMenuItem = parentItem;
+      this.selectedSubMenuItem = item;
+    } else {
+      this.selectedParentMenuItem = item;
+      this.selectedSubMenuItem = null;
+    }
+    this.updateBreadcrumb(item, parentItem);
   }
 
-  updateBreadcrumb(item: any) {
-    this.items = [
-      { label: '首頁', url: '/' },
-      { label: item.title, url: item.url || '#' }
-    ];
+  updateBreadcrumb(item: any, parentItem?: any) {
+    this.items = [];
+
+    if (parentItem) {
+      this.items.push({ label: parentItem.title, url: parentItem.url || '#' });
+    }
+
+    this.items.push({ label: item.title, url: item.url || '#' });
+  }
+
+  isParentMenuSelected(item: any): boolean {
+    return this.selectedParentMenuItem && this.selectedParentMenuItem.title === item.title;
+  }
+
+  isSubMenuSelected(item: any): boolean {
+    return this.selectedSubMenuItem && this.selectedSubMenuItem.title === item.title;
   }
 }
