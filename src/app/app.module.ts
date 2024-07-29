@@ -9,6 +9,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { registerLocaleData } from '@angular/common';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { AppRoutingModule } from './app.routes';
 import en from '@angular/common/locales/en';
 import zh from '@angular/common/locales/zh';
 
@@ -25,7 +26,8 @@ registerLocaleData(zh);
     NzIconModule,
     NzBreadCrumbModule,
     BreadcrumbModule,
-    MatGridListModule
+    MatGridListModule,
+    AppRoutingModule
   ],
   providers: []
 })

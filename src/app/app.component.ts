@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { menuItems, mainMenuItems } from './menu-config';
+import { mainMenuItems, menuItems } from './menu-config';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     fontSize: '1rem'
   };
 
-  constructor() {
+  constructor(private router: Router) {
     this.items = [];
   }
 
@@ -40,11 +40,14 @@ export class AppComponent implements OnInit {
     if (parentItem) {
       this.selectedParentMenuItem = parentItem;
       this.selectedSubMenuItem = item;
+      this.updateBreadcrumb(item, parentItem);
+      this.router.navigate([item.url]);
     } else {
       this.selectedParentMenuItem = item;
       this.selectedSubMenuItem = null;
+      this.updateBreadcrumb(item);
+      this.router.navigate([item.url]);
     }
-    this.updateBreadcrumb(item, parentItem);
   }
 
   updateBreadcrumb(item: any, parentItem?: any) {
