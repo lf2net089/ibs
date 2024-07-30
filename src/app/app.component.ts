@@ -5,7 +5,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { mainMenuItems, menuItems } from './menu-config';
+import { mainMenuItems, menuItems, HOME_URL } from './menu-config';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -42,12 +42,12 @@ export class AppComponent implements OnInit {
   updateBreadcrumbFromUrl() {
     const urlSegments = this.router.url.split('/').filter(segment => segment);
     this.items = [];
+    const homeItem = this.mainMenuItems.find(item => item.url === HOME_URL);
+    if (homeItem) {
+      this.items.push({ label: homeItem.title, url: homeItem.url });
+    }
 
-    // Always add the home page as the first breadcrumb item
-    this.items.push({ label: '首頁', url: '/' });
-
-    // If there are no other segments, we are on the home page
-    if (urlSegments.length === 0) {
+    if (urlSegments.length === 0 || !homeItem) {
       return;
     }
 
@@ -57,10 +57,10 @@ export class AppComponent implements OnInit {
       const menuItem = this.findMenuItemByUrl(currentUrl);
 
       if (menuItem) {
-        if (menuItem.parent && menuItem.parent.url !== '/') {
+        if (menuItem.parent && menuItem.parent.url !== HOME_URL) {
           this.items.push({ label: menuItem.parent.title, url: menuItem.parent.url });
         }
-        if (menuItem.url !== '/' && menuItem.title !== '首頁') {
+        if (menuItem.url !== '/' && menuItem.title !== homeItem.title) {
           this.items.push({ label: menuItem.title, url: menuItem.url || '#' });
         }
       }

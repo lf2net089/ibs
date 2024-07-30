@@ -28,7 +28,7 @@
   </nz-header>
   <nz-content class="app-content row">
     <div class="col-12">
-      <div class="breadcrumb-container">
+      <div class="breadcrumb-container" [ngClass]="{'breadcrumb-container-single': items.length === 1}">
         <p-breadcrumb [model]="items" class="breadcrumb-style"></p-breadcrumb>
       </div>
       <div class="inner-content">
