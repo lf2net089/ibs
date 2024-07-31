@@ -17,11 +17,17 @@ export const menuItems: MenuItem[] = [
   {
     title: '維護',
     children: [
-      { title: '系統維護', url: '/system-maintenance' },
-      { title: '資料維護', url: '/data-maintenance' }
+      { title: '系統維護', url: '/maintenance/system-maintenance' },
+      { title: '資料維護', url: '/maintenance/data-maintenance' }
     ]
   },
   { title: '查詢', url: '/search' },
   { title: '設定', url: '/settings' },
-  { title: '權限', url: '/permissions' }
+  { title: '權限',
+    children: [
+      { title: '帳戶設定', url: '/permissions/account' },
+      { title: '群組設定', url: '/permissions/group' },
+      { title: '角色設定', url: '/permissions/role' },
+      { title: '功能設定', url: '/permissions/feature' }
+    ]},
 ];

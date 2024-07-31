@@ -9,6 +9,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { registerLocaleData } from '@angular/common';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 import en from '@angular/common/locales/en';
@@ -60,7 +61,8 @@ registerLocaleData(zh);
     NzBreadCrumbModule,
     BreadcrumbModule,
     MatGridListModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxPermissionsModule.forRoot()
   ],
   providers: [],
 })
