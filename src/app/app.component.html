@@ -13,15 +13,24 @@
   <nz-header class="app-sub-header row align-items-center">
     <ul nz-menu nzMode="horizontal" class="col-12 d-flex justify-content-start">
       <ng-container *ngFor="let item of subMenuItems">
+        <li nz-submenu *ngIf="item.children" [nzTitle]="item.title">
+          <ul>
+            <ng-container *ngFor="let child of item.children">
+              <li nz-submenu *ngIf="child.children" [nzTitle]="child.title">
+                <ul>
+                  <li nz-menu-item *ngFor="let grandChild of child.children" (click)="onMenuItemClick(grandChild, child)">
+                    {{ grandChild.title }}
+                  </li>
+                </ul>
+              </li>
+              <li nz-menu-item *ngIf="!child.children" (click)="onMenuItemClick(child, item)">
+                {{ child.title }}
+              </li>
+            </ng-container>
+          </ul>
+        </li>
         <li nz-menu-item *ngIf="!item.children" (click)="onMenuItemClick(item)">
           {{ item.title }}
-        </li>
-        <li nz-submenu *ngIf="item.children" nzTitle="{{ item.title }}">
-          <ul>
-            <li nz-menu-item *ngFor="let child of item.children" (click)="onMenuItemClick(child, item)">
-              {{ child.title }}
-            </li>
-          </ul>
         </li>
       </ng-container>
     </ul>

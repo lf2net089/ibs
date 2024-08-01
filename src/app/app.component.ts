@@ -88,9 +88,15 @@ export class AppComponent implements OnInit {
 
     for (const parentItem of this.subMenuItems) {
       if (parentItem.children) {
-        menuItem = parentItem.children.find(child => child.url === url);
-        if (menuItem) {
-          return { ...menuItem, parent: parentItem };
+        for (const childItem of parentItem.children) {
+          if (childItem.children) {
+            menuItem = childItem.children.find(child => child.url === url);
+            if (menuItem) {
+              return { ...menuItem, parent: childItem };
+            }
+          } else if (childItem.url === url) {
+            return { ...childItem, parent: parentItem };
+          }
         }
       } else if (parentItem.url === url) {
         return { ...parentItem, parent };
