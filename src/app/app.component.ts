@@ -42,12 +42,12 @@ export class AppComponent implements OnInit {
   updateBreadcrumbFromUrl() {
     const urlSegments = this.router.url.split('/').filter(segment => segment);
     this.items = [];
-    const homeItem = this.mainMenuItems.find(item => item.url === HOME_URL);
-    if (homeItem) {
-      this.items.push({ label: homeItem.title, url: homeItem.url });
-    }
 
-    if (urlSegments.length === 0 || !homeItem) {
+    // 保证总是有一个有效的 homeItem
+    const homeItem = { title: '首頁', url: HOME_URL };
+    this.items.push({ label: homeItem.title, url: homeItem.url });
+
+    if (urlSegments.length === 0) {
       return;
     }
 
