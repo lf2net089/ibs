@@ -1,5 +1,5 @@
 import { MenuItem } from './menu-item.interface';
-export const HOME_URL = '/home';
+export const homeItem: MenuItem = { title: '首頁', url: '/home' };
 
 export const mainMenuItems: MenuItem[] = [
   { title: '關於我們', url: '/about' },

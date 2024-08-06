@@ -48,7 +48,8 @@ registerLocaleData(zh);
     DataMaintenanceComponent,
     QueryComponent,
     SettingsComponent,
-    PermissionsComponent
+    PermissionsComponent,
+    CalendarComponent
   ],
   imports: [
     AppComponent,

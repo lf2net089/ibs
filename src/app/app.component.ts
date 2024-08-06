@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { mainMenuItems, menuItems, HOME_URL } from './menu-config';
+import { Title } from '@angular/platform-browser';
+import { mainMenuItems, menuItems, homeItem } from './menu-config';
 import { filter } from 'rxjs/operators';
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
     fontSize: '1rem'
   };
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private titleService: Title) {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.updateBreadcrumbFromUrl();
     });
@@ -42,10 +43,8 @@ export class AppComponent implements OnInit {
   updateBreadcrumbFromUrl() {
     const urlSegments = this.router.url.split('/').filter(segment => segment);
     this.items = [];
-
-    // 保证总是有一个有效的 homeItem
-    const homeItem = { title: '首頁', url: HOME_URL };
     this.items.push({ label: homeItem.title, url: homeItem.url });
+    this.titleService.setTitle(homeItem.title);
 
     if (urlSegments.length === 0) {
       return;
@@ -57,11 +56,12 @@ export class AppComponent implements OnInit {
       const menuItem = this.findMenuItemByUrl(currentUrl);
 
       if (menuItem) {
-        if (menuItem.parent && menuItem.parent.url !== HOME_URL) {
+        if (menuItem.parent && menuItem.parent.url !== homeItem.url) {
           this.items.push({ label: menuItem.parent.title, url: menuItem.parent.url });
         }
         if (menuItem.url !== '/' && menuItem.title !== homeItem.title) {
           this.items.push({ label: menuItem.title, url: menuItem.url || '#' });
+          this.titleService.setTitle(menuItem.title);
         }
       }
     });

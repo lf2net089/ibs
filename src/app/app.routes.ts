@@ -5,6 +5,7 @@ import { ServicesComponent } from './pages/services/services.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { InvoiceComponent } from './pages/invoice/invoice.component';
+import { InvoiceManualCreation } from './pages/invoice/manual-creation.component';
 import { CreditNoteComponent } from './pages/credit-note/credit-note.component';
 import { ReceiptMaintenanceComponent } from './pages/receipt/receipt-maintenance.component';
 import { ReceiptManualCreationComponent } from './pages/receipt/receipt-manual-creation.component';
@@ -31,7 +32,7 @@ export const routes: Routes = [
   { path: 'billing/receipt/manual-creation', component: ReceiptManualCreationComponent },
   { path: 'billing/receipt/cancellation', component: ReceiptCancellationComponent },
   { path: 'invoice/maintenance', component: InvoiceComponent },
-  { path: 'invoice/manual-creation', component: InvoiceComponent },
+  { path: 'invoice/manual-creation', component: InvoiceManualCreation },
   { path: 'invoice/credit-note/maintenance', component: CreditNoteComponent },
   { path: 'invoice/project-tax/maintenance', component: FinancialReportComponent },
   { path: 'report/freeze-operation', component: FinancialReportComponent },
