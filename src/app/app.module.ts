@@ -29,6 +29,11 @@ import { DataMaintenanceComponent } from './pages/data-maintenance/data-maintena
 import { QueryComponent } from './pages/query/query.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { PermissionsComponent } from './pages/permissions/permissions.component';
+import { CalendarModule as AngularCalendarModule, DateAdapter } from 'angular-calendar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FormsModule } from '@angular/forms';
+import { CalendarComponent } from './pages/calendar/calendar.component';
 
 registerLocaleData(en);
 registerLocaleData(zh);
@@ -48,12 +53,13 @@ registerLocaleData(zh);
     DataMaintenanceComponent,
     QueryComponent,
     SettingsComponent,
-    PermissionsComponent,
-    CalendarComponent
+    PermissionsComponent
   ],
   imports: [
     AppComponent,
     BrowserModule,
+    NgbModule,
+    FormsModule,
     BrowserAnimationsModule,
     NzButtonModule,
     NzMenuModule,
@@ -63,8 +69,13 @@ registerLocaleData(zh);
     BreadcrumbModule,
     MatGridListModule,
     AppRoutingModule,
-    NgxPermissionsModule.forRoot()
+    AngularCalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    NgxPermissionsModule.forRoot(),
+    CalendarComponent
   ],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

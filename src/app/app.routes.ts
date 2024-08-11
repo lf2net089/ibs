@@ -21,6 +21,7 @@ import { AccountSettingsComponent } from './pages/permissions/account-settings.c
 import { GroupSettingsComponent } from './pages/permissions/group-settings.component';
 import { RoleSettingsComponent } from './pages/permissions/role-settings.component';
 import { FeatureSettingsComponent } from './pages/permissions/feature-settings.component';
+import { CalendarComponent } from './pages/calendar/calendar.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -28,19 +29,34 @@ export const routes: Routes = [
   { path: 'services', component: ServicesComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'billing/regenerate-bill', component: BillingComponent },
-  { path: 'billing/receipt/maintenance', component: ReceiptMaintenanceComponent },
-  { path: 'billing/receipt/manual-creation', component: ReceiptManualCreationComponent },
-  { path: 'billing/receipt/cancellation', component: ReceiptCancellationComponent },
-  { path: 'invoice/maintenance', component: InvoiceComponent },
+  {
+    path: 'billing/receipt/maintenance',
+    component: ReceiptMaintenanceComponent,
+  },
+  {
+    path: 'billing/receipt/manual-creation',
+    component: ReceiptManualCreationComponent,
+  },
+  {
+    path: 'billing/receipt/cancellation',
+    component: ReceiptCancellationComponent,
+  },
+  { path: 'invoice/maintenance', component: CalendarComponent },
   { path: 'invoice/manual-creation', component: InvoiceManualCreation },
   { path: 'invoice/credit-note/maintenance', component: CreditNoteComponent },
-  { path: 'invoice/project-tax/maintenance', component: FinancialReportComponent },
+  {
+    path: 'invoice/project-tax/maintenance',
+    component: FinancialReportComponent,
+  },
   { path: 'report/freeze-operation', component: FinancialReportComponent },
   { path: 'report/media-declaration', component: FinancialReportComponent },
   { path: 'report/zero-tax-report', component: FinancialReportComponent },
   { path: 'report/project-tax-report', component: FinancialReportComponent },
   { path: 'report/input-maintenance', component: FinancialReportComponent },
-  { path: 'maintenance/system-maintenance', component: SystemMaintenanceComponent },
+  {
+    path: 'maintenance/system-maintenance',
+    component: SystemMaintenanceComponent,
+  },
   { path: 'maintenance/data-maintenance', component: DataMaintenanceComponent },
   { path: 'search/summary', component: QueryComponent },
   { path: 'settings/basic', component: SettingsComponent },
@@ -57,11 +73,11 @@ export const routes: Routes = [
   { path: 'permissions/role-settings', component: RoleSettingsComponent },
   { path: 'permissions/feature-settings', component: FeatureSettingsComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: '/home' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
