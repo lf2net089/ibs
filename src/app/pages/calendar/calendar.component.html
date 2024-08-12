@@ -1,5 +1,3 @@
-<p-contextMenu #cm [model]="items"></p-contextMenu>
-
 <div class="calendar-controls">
   <button (click)="setView(CalendarView.Month)">Month View</button>
   <button (click)="setView(CalendarView.Week)">Week View</button>
@@ -9,7 +7,7 @@
 <div class="calendar-header">
   <button (click)="previousMonth()">Previous</button>
   <button (click)="nextMonth()">Next</button>
-  <h2>{{ viewDate | date: 'MMMM yyyy' }}</h2>
+  <h2>{{ viewDate | date : "MMMM yyyy" }}</h2>
 </div>
 
 <div class="calendar-view" (contextmenu)="cm.show($event)">
@@ -19,7 +17,7 @@
     [events]="events"
     (dayClicked)="dayClicked($event)"
     (eventClicked)="handleEvent($event)"
-  >
+    [refresh]="refresh">
   </mwl-calendar-month-view>
 
   <mwl-calendar-week-view
@@ -38,3 +36,6 @@
   >
   </mwl-calendar-day-view>
 </div>
+
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+

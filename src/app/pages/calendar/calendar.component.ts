@@ -1,18 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CalendarEvent, CalendarView, CalendarModule } from 'angular-calendar';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { CalendarEvent, CalendarView, CalendarMonthViewDay } from 'angular-calendar';
 import { startOfDay, addDays, isSameMonth, isSameDay, subMonths, addMonths } from 'date-fns';
 import { FormsModule } from '@angular/forms';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarFeatureModule } from './calendar-feature.module';
-import { MenuItem ,PrimeNGConfig } from 'primeng/api';
+import { MenuItem, PrimeNGConfig } from 'primeng/api';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.less'],
   standalone: true,
-  imports: [CommonModule, NgbDatepickerModule, FormsModule, CalendarFeatureModule],
+  imports: [CommonModule, FormsModule, CalendarFeatureModule],
+  encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent {
   view: CalendarView = CalendarView.Month;
@@ -20,23 +22,29 @@ export class CalendarComponent {
   activeDayIsOpen: boolean = false;
   events: CalendarEvent[] = this.getDefaultEvents();
   items: MenuItem[] = [];
-  constructor(private primengConfig: PrimeNGConfig) {}
+  refresh: Subject<any> = new Subject();
+  selectedDate: Date | null = null;
+  hoveredDate: Date | null = null;
+
+  constructor(private primengConfig: PrimeNGConfig, private cdr: ChangeDetectorRef) { }
+
   ngOnInit(): void {
     this.items = [
       {
         label: 'Add Event',
         icon: 'pi pi-plus',
-        command: () => this.addEvent(this.viewDate),
+        command: () => this.addEvent(this.selectedDate),
       },
       {
-        label: 'Delete Last Event',
+        label: 'Delete Event',
         icon: 'pi pi-times',
-        command: () => this.deleteEvent(),
+        command: () => this.deleteEvent(this.selectedDate),
       },
     ];
     this.primengConfig.ripple = true;
     console.log('CalendarComponent initialized');
   }
+
   getDefaultEvents(): CalendarEvent[] {
     return [
       {
@@ -65,8 +73,13 @@ export class CalendarComponent {
     console.log('Event clicked:', calendarEvent);
   }
 
-  dayClicked(event: any): void {
-    const { date, events } = event as { date: Date; events: CalendarEvent[] };
+  dayHovered(day: CalendarMonthViewDay): void {
+    console.log('Day hovered:', day.date);
+    this.hoveredDate = day.date;
+  }
+
+  dayClicked({ day }: { day: CalendarMonthViewDay }): void {
+    const { date, events } = day;
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -77,6 +90,8 @@ export class CalendarComponent {
         this.activeDayIsOpen = true;
         this.viewDate = date;
       }
+      this.selectedDate = date;
+      console.log('Day clicked:', this.selectedDate);
     }
   }
 
@@ -87,19 +102,29 @@ export class CalendarComponent {
   nextMonth(): void {
     this.viewDate = addMonths(this.viewDate, 1);
   }
-  addEvent(date: Date): void {
-    this.events.push({
-      start: date,
-      title: 'New event',
-      color: { primary: '#ad2121', secondary: '#FAE3E3' },
-    });
-    console.log('Event added:', date);
+
+  addEvent(date: Date | null): void {
+    if (date) {
+      this.events.push({
+        start: date,
+        title: 'New event',
+        color: { primary: '#ad2121', secondary: '#FAE3E3' },
+      });
+      console.log('Event added:', date);
+      this.refresh.next(null);
+      this.cdr.detectChanges();
+    }
   }
 
-  deleteEvent(): void {
-    if (this.events.length > 0) {
-      this.events.pop();
-      console.log('Event deleted');
+  deleteEvent(date: Date | null): void {
+    if (date) {
+      const index = this.events.findIndex(event => isSameDay(event.start, date));
+      if (index !== -1) {
+        this.events.splice(index, 1);
+        console.log('Event deleted:', date);
+        this.refresh.next(null);
+        this.cdr.detectChanges();
+      }
     }
   }
 
