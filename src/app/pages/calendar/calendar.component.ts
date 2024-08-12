@@ -5,6 +5,7 @@ import { startOfDay, addDays, isSameMonth, isSameDay, subMonths, addMonths } fro
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarFeatureModule } from './calendar-feature.module';
+import { MenuItem ,PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-calendar',
@@ -18,7 +19,24 @@ export class CalendarComponent {
   viewDate: Date = new Date();
   activeDayIsOpen: boolean = false;
   events: CalendarEvent[] = this.getDefaultEvents();
-
+  items: MenuItem[] = [];
+  constructor(private primengConfig: PrimeNGConfig) {}
+  ngOnInit(): void {
+    this.items = [
+      {
+        label: 'Add Event',
+        icon: 'pi pi-plus',
+        command: () => this.addEvent(this.viewDate),
+      },
+      {
+        label: 'Delete Last Event',
+        icon: 'pi pi-times',
+        command: () => this.deleteEvent(),
+      },
+    ];
+    this.primengConfig.ripple = true;
+    console.log('CalendarComponent initialized');
+  }
   getDefaultEvents(): CalendarEvent[] {
     return [
       {
@@ -69,8 +87,20 @@ export class CalendarComponent {
   nextMonth(): void {
     this.viewDate = addMonths(this.viewDate, 1);
   }
-
-  ngOnInit(): void {
-    console.log('CalendarComponent initialized');
+  addEvent(date: Date): void {
+    this.events.push({
+      start: date,
+      title: 'New event',
+      color: { primary: '#ad2121', secondary: '#FAE3E3' },
+    });
+    console.log('Event added:', date);
   }
+
+  deleteEvent(): void {
+    if (this.events.length > 0) {
+      this.events.pop();
+      console.log('Event deleted');
+    }
+  }
+
 }

@@ -1,37 +1,40 @@
-<div>
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
+<div class="calendar-controls">
   <button (click)="setView(CalendarView.Month)">Month View</button>
   <button (click)="setView(CalendarView.Week)">Week View</button>
   <button (click)="setView(CalendarView.Day)">Day View</button>
 </div>
 
-<div style="margin-bottom: 20px;">
+<div class="calendar-header">
   <button (click)="previousMonth()">Previous</button>
   <button (click)="nextMonth()">Next</button>
   <h2>{{ viewDate | date: 'MMMM yyyy' }}</h2>
-
 </div>
 
-<mwl-calendar-month-view
-  *ngIf="view === CalendarView.Month"
-  [viewDate]="viewDate"
-  [events]="events"
-  (dayClicked)="dayClicked($event)"
-  (eventClicked)="handleEvent($event)"
->
-</mwl-calendar-month-view>
+<div class="calendar-view" (contextmenu)="cm.show($event)">
+  <mwl-calendar-month-view
+    *ngIf="view === CalendarView.Month"
+    [viewDate]="viewDate"
+    [events]="events"
+    (dayClicked)="dayClicked($event)"
+    (eventClicked)="handleEvent($event)"
+  >
+  </mwl-calendar-month-view>
 
-<mwl-calendar-week-view
-  *ngIf="view === CalendarView.Week"
-  [viewDate]="viewDate"
-  [events]="events"
-  (eventClicked)="handleEvent($event)"
->
-</mwl-calendar-week-view>
+  <mwl-calendar-week-view
+    *ngIf="view === CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="events"
+    (eventClicked)="handleEvent($event)"
+  >
+  </mwl-calendar-week-view>
 
-<mwl-calendar-day-view
-  *ngIf="view === CalendarView.Day"
-  [viewDate]="viewDate"
-  [events]="events"
-  (eventClicked)="handleEvent($event)"
->
-</mwl-calendar-day-view>
+  <mwl-calendar-day-view
+    *ngIf="view === CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="events"
+    (eventClicked)="handleEvent($event)"
+  >
+  </mwl-calendar-day-view>
+</div>
