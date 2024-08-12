@@ -5,9 +5,10 @@
 </div>
 
 <div style="margin-bottom: 20px;">
-  <h2>{{ viewDate | date: 'MMMM yyyy' }}</h2>
   <button (click)="previousMonth()">Previous</button>
   <button (click)="nextMonth()">Next</button>
+  <h2>{{ viewDate | date: 'MMMM yyyy' }}</h2>
+
 </div>
 
 <mwl-calendar-month-view
