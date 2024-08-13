@@ -8,6 +8,7 @@
       <p-autoComplete
         [(ngModel)]="selectedCustomer"
         [suggestions]="filteredCustomers"
+        [dropdown]="true"
         (completeMethod)="filterCustomer($event)"
         field="name"
         inputId="customerId"
@@ -21,6 +22,7 @@
       <p-autoComplete
         [(ngModel)]="invoiceNumber"
         [suggestions]="filteredInvoiceNumbers"
+        [dropdown]="true"
         (completeMethod)="filterInvoiceNumber($event)"
         field="name"
         inputId="invoiceNumber"
@@ -30,9 +32,9 @@
 
     <!-- Datepicker for Invoice Date Range -->
     <div class="form-grid">
-      <table style="width: 80%;">
+      <table style="width: 90%;">
         <tr>
-          <td [style.width.%]="50" [style.padding-right.px]="5">
+          <td [style.width.%]="50" [style.padding-right.px]="1">
             <div class="form-row">
               <label for="invoiceDateStart">發票日期(起)</label>
               <p-calendar
@@ -43,7 +45,7 @@
               </p-calendar>
             </div>
           </td>
-          <td [style.width.%]="50" [style.padding-left.px]="5">
+          <td [style.width.%]="50" [style.padding-left.px]="1">
             <div class="form-row">
               <label for="invoiceDateEnd">發票日期(迄)</label>
               <p-calendar
@@ -64,6 +66,7 @@
       <label for="serviceCenter">服務中心</label>
       <p-autoComplete
         [(ngModel)]="selectedServiceCenter"
+        [dropdown]="true"
         [suggestions]="filteredServiceCenters"
         (completeMethod)="filterServiceCenter($event)"
         field="name"
@@ -78,6 +81,7 @@
       <p-autoComplete
         [(ngModel)]="source"
         [suggestions]="filteredSources"
+        [dropdown]="true"
         (completeMethod)="filterSource($event)"
         field="name"
         inputId="source"
@@ -87,7 +91,7 @@
 
     <!-- Buttons -->
     <div class="form-row form-buttons" style="margin-top: 20px;">
-      <table style="width: 80%;">
+      <table style="width: 96%;">
         <tr>
           <td style="width: 50%; padding-right: 5px;">
             <button pButton type="button" label="Submit" icon="pi pi-check" style="width: 100%;"></button>

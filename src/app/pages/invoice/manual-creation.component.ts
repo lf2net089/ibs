@@ -78,9 +78,10 @@ export class InvoiceManualCreation {
 
   getSources() {
     return [
-      { name: 'Source 1' },
-      { name: 'Source 2' },
-      { name: 'Source 3' },
+      { name: '自動開立' },
+      { name: '人工開立' },
+      { name: 'POS' },
+      { name: '綠界' },
     ];
   }
 
