@@ -1,4 +1,106 @@
-<div>
-    <h1>manual-creation.component</h1>
-    <p>This is the manual-creation.component.</p>
-</div>
+<p-sidebar [(visible)]="sidebarVisible" [baseZIndex]="10000" position="right" [modal]="false" [style]="{ width: '290px' }">
+  <h2>Query Criteria</h2>
+
+  <div class="form-grid">
+    <!-- AutoComplete for Customer ID -->
+    <div class="form-row">
+      <label for="customerId">客戶帳號</label>
+      <p-autoComplete
+        [(ngModel)]="selectedCustomer"
+        [suggestions]="filteredCustomers"
+        (completeMethod)="filterCustomer($event)"
+        field="name"
+        inputId="customerId"
+        placeholder="Enter Customer ID">
+      </p-autoComplete>
+    </div>
+
+    <!-- Input for Invoice Number using p-autoComplete with autocomplete disabled -->
+    <div class="form-row">
+      <label for="invoiceNumber">發票號碼</label>
+      <p-autoComplete
+        [(ngModel)]="invoiceNumber"
+        [suggestions]="filteredInvoiceNumbers"
+        (completeMethod)="filterInvoiceNumber($event)"
+        field="name"
+        inputId="invoiceNumber"
+        placeholder="Enter Invoice Number">
+      </p-autoComplete>
+    </div>
+
+    <!-- Datepicker for Invoice Date Range -->
+    <div class="form-grid">
+      <table style="width: 80%;">
+        <tr>
+          <td [style.width.%]="50" [style.padding-right.px]="5">
+            <div class="form-row">
+              <label for="invoiceDateStart">發票日期(起)</label>
+              <p-calendar
+                [(ngModel)]="invoiceDateStart"
+                inputId="invoiceDateStart"
+                dateFormat="yy-mm-dd"
+                [style.width.%]="100">
+              </p-calendar>
+            </div>
+          </td>
+          <td [style.width.%]="50" [style.padding-left.px]="5">
+            <div class="form-row">
+              <label for="invoiceDateEnd">發票日期(迄)</label>
+              <p-calendar
+                [(ngModel)]="invoiceDateEnd"
+                inputId="invoiceDateEnd"
+                dateFormat="yy-mm-dd"
+                [style.width.%]="100">
+              </p-calendar>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+    <!-- AutoComplete for Service Center -->
+    <div class="form-row">
+      <label for="serviceCenter">服務中心</label>
+      <p-autoComplete
+        [(ngModel)]="selectedServiceCenter"
+        [suggestions]="filteredServiceCenters"
+        (completeMethod)="filterServiceCenter($event)"
+        field="name"
+        inputId="serviceCenter"
+        placeholder="Enter Service Center">
+      </p-autoComplete>
+    </div>
+
+    <!-- Input for Source using p-autoComplete with autocomplete disabled -->
+    <div class="form-row">
+      <label for="source">開立來源</label>
+      <p-autoComplete
+        [(ngModel)]="source"
+        [suggestions]="filteredSources"
+        (completeMethod)="filterSource($event)"
+        field="name"
+        inputId="source"
+        placeholder="Enter Source">
+      </p-autoComplete>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-row form-buttons" style="margin-top: 20px;">
+      <table style="width: 80%;">
+        <tr>
+          <td style="width: 50%; padding-right: 5px;">
+            <button pButton type="button" label="Submit" icon="pi pi-check" style="width: 100%;"></button>
+          </td>
+          <td style="width: 50%; padding-left: 5px;">
+            <button pButton type="button" label="Clear" class="p-button-secondary" style="width: 100%;"></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</p-sidebar>
+
+<!-- Button to Toggle Sidebar -->
+<button pButton type="button" icon="pi pi-filter" (click)="toggleSidebar()" label="Toggle Sidebar"></button>

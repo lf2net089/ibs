@@ -31,7 +31,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { PermissionsComponent } from './pages/permissions/permissions.component';
 import { FormsModule } from '@angular/forms';
 import { CalendarComponent } from './pages/calendar/calendar.component';
-
+import { ManualCreationModule } from './pages/invoice/manual-creation.module';
 registerLocaleData(en);
 registerLocaleData(zh);
 
@@ -65,6 +65,7 @@ registerLocaleData(zh);
     BreadcrumbModule,
     MatGridListModule,
     AppRoutingModule,
+    ManualCreationModule,
     NgxPermissionsModule.forRoot(),
     CalendarComponent
   ],

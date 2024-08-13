@@ -20,7 +20,8 @@ import { ContextMenuModule } from 'primeng/contextmenu';
     CommonModule,
     NgbDatepickerModule,
     FormsModule,
-    CalendarModule,ContextMenuModule
+    CalendarModule,
+    ContextMenuModule
   ],
 })
 export class CalendarFeatureModule {}
