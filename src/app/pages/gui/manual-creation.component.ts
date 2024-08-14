@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [AutoCompleteModule, CalendarModule, ButtonModule, SidebarModule,FormsModule ],
 })
-export class InvoiceManualCreation {
+export class GUIManualCreation {
   sidebarVisible: boolean = false;
   selectedCustomer: any;
   selectedServiceCenter: any;

@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './pages/about/about.component';
 import { ServicesComponent } from './pages/services/services.component';
 import { ContactComponent } from './pages/contact/contact.component';
-import { BillingComponent } from './pages/billing/billing.component';
 import { InvoiceComponent } from './pages/invoice/invoice.component';
-import { InvoiceManualCreation } from './pages/invoice/manual-creation.component';
+import { GUIComponent } from './pages/gui/gui.component';
+import { GUIManualCreation } from './pages/gui/manual-creation.component';
 import { CreditNoteComponent } from './pages/credit-note/credit-note.component';
 import { ReceiptMaintenanceComponent } from './pages/receipt/receipt-maintenance.component';
 import { ReceiptManualCreationComponent } from './pages/receipt/receipt-manual-creation.component';
@@ -28,24 +28,25 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'services', component: ServicesComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'billing/regenerate-bill', component: BillingComponent },
+  { path: 'invoice/search-invoice', component: InvoiceComponent },
+  { path: 'invoice/regenerate-invoice', component: InvoiceComponent },
   {
-    path: 'billing/receipt/maintenance',
+    path: 'invoice/receipt/maintenance',
     component: ReceiptMaintenanceComponent,
   },
   {
-    path: 'billing/receipt/manual-creation',
+    path: 'invoice/receipt/manual-creation',
     component: ReceiptManualCreationComponent,
   },
   {
-    path: 'billing/receipt/cancellation',
+    path: 'invoice/receipt/cancellation',
     component: ReceiptCancellationComponent,
   },
-  { path: 'invoice/maintenance', component: CalendarComponent },
-  { path: 'invoice/manual-creation', component: InvoiceManualCreation },
-  { path: 'invoice/credit-note/maintenance', component: CreditNoteComponent },
+  { path: 'gui/maintenance', component: GUIComponent },
+  { path: 'gui/manual-creation', component: GUIManualCreation },
+  { path: 'gui/creditnote/maintenance', component: CreditNoteComponent },
   {
-    path: 'invoice/project-tax/maintenance',
+    path: 'gui/projecttax/maintenance',
     component: FinancialReportComponent,
   },
   { path: 'report/freeze-operation', component: FinancialReportComponent },
@@ -61,9 +62,9 @@ export const routes: Routes = [
   { path: 'search/summary', component: QueryComponent },
   { path: 'settings/basic', component: SettingsComponent },
   { path: 'settings/service-center', component: SettingsComponent },
-  { path: 'settings/invoice-configuration', component: SettingsComponent },
-  { path: 'settings/bill-group-print', component: SettingsComponent },
-  { path: 'settings/bill-template-maintenance', component: SettingsComponent },
+  { path: 'settings/gui-configuration', component: SettingsComponent },
+  { path: 'settings/invoice-group-print', component: SettingsComponent },
+  { path: 'settings/invoice-template-maintenance', component: SettingsComponent },
   { path: 'settings/customer-maintenance', component: SettingsComponent },
   { path: 'settings/agent-maintenance', component: SettingsComponent },
   { path: 'settings/vendor-maintenance', component: SettingsComponent },
@@ -80,4 +81,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
