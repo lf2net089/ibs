@@ -1,9 +1,7 @@
-import { CommonModule } from '@angular/common';
+import { CalendarFeatureModule } from './calendar-feature.module';
 import { Component, ChangeDetectorRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CalendarEvent, CalendarView, CalendarMonthViewDay } from 'angular-calendar';
 import { startOfDay, addDays, isSameMonth, isSameDay, subMonths, addMonths } from 'date-fns';
-import { FormsModule } from '@angular/forms';
-import { CalendarFeatureModule } from './calendar-feature.module';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Subject } from 'rxjs';
 
@@ -13,7 +11,7 @@ import { Subject } from 'rxjs';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.less'],
   standalone: true,
-  imports: [CommonModule, FormsModule, CalendarFeatureModule],
+  imports: [ CalendarFeatureModule],
   encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent {

@@ -5,7 +5,7 @@ import { ServicesComponent } from './pages/services/services.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { InvoiceComponent } from './pages/invoice/invoice.component';
 import { GUIComponent } from './pages/gui/gui.component';
-import { GUIManualCreation } from './pages/gui/manual-creation.component';
+import { GUIManualCreationComponent } from './pages/gui/manual-creation.component';
 import { CreditNoteComponent } from './pages/credit-note/credit-note.component';
 import { ReceiptMaintenanceComponent } from './pages/receipt/receipt-maintenance.component';
 import { ReceiptManualCreationComponent } from './pages/receipt/receipt-manual-creation.component';
@@ -22,7 +22,6 @@ import { GroupSettingsComponent } from './pages/permissions/group-settings.compo
 import { RoleSettingsComponent } from './pages/permissions/role-settings.component';
 import { FeatureSettingsComponent } from './pages/permissions/feature-settings.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
-
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
@@ -43,7 +42,7 @@ export const routes: Routes = [
     component: ReceiptCancellationComponent,
   },
   { path: 'gui/maintenance', component: GUIComponent },
-  { path: 'gui/manual-creation', component: GUIManualCreation },
+  { path: 'gui/manual-creation', component: GUIManualCreationComponent },
   { path: 'gui/creditnote/maintenance', component: CreditNoteComponent },
   {
     path: 'gui/projecttax/maintenance',

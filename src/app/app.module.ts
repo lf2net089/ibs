@@ -15,47 +15,15 @@ import { AppRoutingModule } from './app.routes';
 import en from '@angular/common/locales/en';
 import zh from '@angular/common/locales/zh';
 
-import { HomeComponent } from './pages/home/home.component';
-import { AboutComponent } from './pages/about/about.component';
-import { ServicesComponent } from './pages/services/services.component';
-import { ContactComponent } from './pages/contact/contact.component';
-import { BillingComponent } from './pages/invoice/invoice.component';
-import { InvoiceComponent } from './pages/gui/gui.component';
-import { CreditNoteComponent } from './pages/credit-note/credit-note.component';
-import { ReceiptComponent } from './pages/receipt/receipt.component';
-import { FinancialReportComponent } from './pages/financial-report/financial-report.component';
-import { SystemMaintenanceComponent } from './pages/system-maintenance/system-maintenance.component';
-import { DataMaintenanceComponent } from './pages/data-maintenance/data-maintenance.component';
-import { QueryComponent } from './pages/query/query.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { PermissionsComponent } from './pages/permissions/permissions.component';
-import { FormsModule } from '@angular/forms';
-import { CalendarComponent } from './pages/calendar/calendar.component';
-import { ManualCreationModule } from './pages/gui/manual-creation.module';
 registerLocaleData(en);
 registerLocaleData(zh);
 
 @NgModule({
   declarations: [
-    HomeComponent,
-    AboutComponent,
-    ServicesComponent,
-    ContactComponent,
-    BillingComponent,
-    InvoiceComponent,
-    CreditNoteComponent,
-    ReceiptComponent,
-    FinancialReportComponent,
-    SystemMaintenanceComponent,
-    DataMaintenanceComponent,
-    QueryComponent,
-    SettingsComponent,
-    PermissionsComponent
   ],
   imports: [
     AppComponent,
     BrowserModule,
-    FormsModule,
     BrowserAnimationsModule,
     NzButtonModule,
     NzMenuModule,
@@ -65,9 +33,7 @@ registerLocaleData(zh);
     BreadcrumbModule,
     MatGridListModule,
     AppRoutingModule,
-    ManualCreationModule,
     NgxPermissionsModule.forRoot(),
-    CalendarComponent
   ],
   providers: [],
 })

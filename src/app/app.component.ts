@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -11,10 +10,10 @@ import { mainMenuItems, menuItems, homeItem } from './menu-config';
 import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, BreadcrumbModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, BreadcrumbModule],
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
