@@ -7,12 +7,11 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.less'],
   standalone: true,
   imports: [ CalendarFeatureModule],
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarComponent {
   view: CalendarView = CalendarView.Month;

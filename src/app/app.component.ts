@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -14,7 +14,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.less'],
   standalone: true,
   imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, BreadcrumbModule],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   isCollapsed = false;
