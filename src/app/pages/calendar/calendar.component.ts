@@ -1,5 +1,5 @@
 import { CalendarFeatureModule } from './calendar-feature.module';
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CalendarEvent, CalendarView, CalendarMonthViewDay } from 'angular-calendar';
 import { startOfDay, addDays, isSameMonth, isSameDay, subMonths, addMonths } from 'date-fns';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';

@@ -21,6 +21,7 @@ import { AccountSettingsComponent } from './pages/permissions/account-settings.c
 import { GroupSettingsComponent } from './pages/permissions/group-settings.component';
 import { RoleSettingsComponent } from './pages/permissions/role-settings.component';
 import { FeatureSettingsComponent } from './pages/permissions/feature-settings.component';
+import { CustomerMaintenanceSettingComponent } from './pages/settings/customer-maintenance.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -64,7 +65,7 @@ export const routes: Routes = [
   { path: 'settings/gui-configuration', component: SettingsComponent },
   { path: 'settings/invoice-group-print', component: SettingsComponent },
   { path: 'settings/invoice-template-maintenance', component: SettingsComponent },
-  { path: 'settings/customer-maintenance', component: SettingsComponent },
+  { path: 'settings/customer-maintenance', component: CustomerMaintenanceSettingComponent },
   { path: 'settings/agent-maintenance', component: SettingsComponent },
   { path: 'settings/vendor-maintenance', component: SettingsComponent },
   { path: 'permissions', component: PermissionsComponent },

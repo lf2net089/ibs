@@ -1,0 +1,480 @@
+<p-overlayPanel #criteria [showCloseIcon]="true" [style]="{ width: '1000px', height: '280px' }">
+  <p-scrollPanel [style]="{ width: '100%', height: '280px' }">
+    <div class="card">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="customerId">客戶帳號</label>
+          <input id="customerId" type="text" pInputText />
+        </div>
+        <div class="p-field p-col">
+          <label for="taxId">客戶統編</label>
+          <input id="taxId" type="text" pInputText />
+        </div>
+        <div class="p-field p-col"></div>
+        <div class="p-field p-col"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+          <div class="p-field-checkbox">
+            <p-checkbox label="不自動開立發票" [binary]="true" inputId="flag1"></p-checkbox>
+          </div>
+        </div>
+        <div class="p-field p-col">
+          <div class="p-field-checkbox">
+            <p-checkbox label="改開次月/次年發票" [binary]="true" inputId="flag1">
+            </p-checkbox>
+          </div>
+        </div>
+        <div class="p-field p-col">
+          <div class="p-field-checkbox">
+            <p-checkbox label="依提單開立多張發票" [binary]="true" inputId="flag1">
+            </p-checkbox>
+          </div>
+        </div>
+        <div class="p-field p-col">
+          <div class="p-field-checkbox">
+            <p-checkbox label="重新計算5%稅額" [binary]="true" inputId="flag1"></p-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+          <div class="p-field-checkbox">
+            <p-checkbox label="改開立發票的服務中心" [binary]="true" inputId="flag1">
+            </p-checkbox>
+          </div>
+        </div>
+        <div class="p-field p-col">
+          <div class="p-field-checkbox">
+            <p-checkbox label="因零稅率需改開二聯式發票" [binary]="true" inputId="flag1">
+            </p-checkbox>
+          </div>
+        </div>
+        <div class="p-field p-col">
+          <div class="p-field-checkbox">
+            <p-checkbox label="多張帳單合併一張發票" [binary]="true" inputId="flag1">
+            </p-checkbox>
+          </div>
+        </div>
+        <div class="p-field p-col"></div>
+      </div>
+    </div>
+    <div class="card p-d-flex p-ai-center p-jc-end">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+          <p-button icon="pi pi-eraser" label="清除"></p-button>
+        </div>
+        <div class="p-field p-col">
+          <p-button icon="pi pi-search" label="查詢" (click)="criteria.hide()"></p-button>
+        </div>
+      </div>
+    </div>
+  </p-scrollPanel>
+</p-overlayPanel>
+
+<p-table #dt [value]="customers" dataKey="customerId" styleClass2="p-datatable-gridlines" selectionMode="single"
+  [(selection)]="selectedCustomer" (onRowSelect)="openCustomerDialog($event)" [rows]="10" paginator="true">
+  <ng-template #result pTemplate="caption">
+    <div class2="p-d-flex p-ai-center p-jc-end">
+      <p-button icon="pi pi-search" label="客戶查詢" (click)="criteria.toggle($event)"></p-button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="align-items-center" style="width: 0rem;"></th>
+      <th class="align-items-center">客戶帳號</th>
+      <th>統一編號</th>
+      <th>公司名稱</th>
+      <th>地址</th>
+      <th>電子信箱</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-customer let-expanded="expanded">
+    <tr [pSelectableRow]="customer">
+      <td>
+        <button type="button" pButton pRipple [pRowToggler]="customer"
+          class="p-button-text p-button-rounded p-button-plain"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+      </td>
+      <td>{{ customer.customerId }}</td>
+      <td>{{ customer.taxId }}</td>
+      <td>{{ customer.name }}<br />{{ customer.engName }}</td>
+      <td>{{ customer.address }}<br />{{ customer.engAddress }}</td>
+      <td>{{ customer.email }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-customer>
+    <tr>
+      <td colspan="6">
+        <table>
+          <tr>
+            <td>
+              <p-fieldset legend="客戶基本資料" [toggleable]="false">
+                <div class="p-fluid2 p-formgrid p-grid">
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="危險地區標記" [(ngModel)]="customer.flag8" [binary]="true" inputId="flag8"
+                      [readonly]="true"></p-checkbox>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="指定收據章" [(ngModel)]="customer.flag9" [binary]="true" inputId="flag9"
+                      [readonly]="true"></p-checkbox>
+                    <label for="flag9"></label>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="顯示燃油附加費率" [(ngModel)]="customer.flag10" [binary]="true" name="flag10" value=""
+                      inputId="flag10" [readonly]="true"></p-checkbox>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="不印帳單" [(ngModel)]="customer.flag11" [binary]="true" name="flag11" value=""
+                      inputId="flag11" [readonly]="true" [disabled]="false"></p-checkbox>
+                  </div>
+                </div>
+              </p-fieldset>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+              <p-fieldset legend="自動開立發票設定">
+                <div class="p-fluid p-formgrid p-grid">
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="不自動開立發票" [(ngModel)]="customer.flag1" [binary]="true" inputId="flag1"
+                      [readonly]="true">
+                    </p-checkbox>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="改開次月/次年發票" [(ngModel)]="customer.flag2" [binary]="true" [readonly]="true">
+                    </p-checkbox>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="依提單開立多張發票" [(ngModel)]="customer.flag3" [binary]="true" inputId="flag3"
+                      [readonly]="true"></p-checkbox>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="重新計算5%稅額" [(ngModel)]="customer.flag4" [binary]="true" inputId="flag4"
+                      [readonly]="true"></p-checkbox>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="改開立發票的服務中心" [(ngModel)]="customer.flag5" [binary]="true" inputId="flag5"
+                      [readonly]="true"></p-checkbox>
+                    <label for="flag5"></label>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="因零稅率需改開二聯式發票" [(ngModel)]="customer.flag6" [binary]="true" inputId="flag6"
+                      [readonly]="true"></p-checkbox>
+                  </div>
+                  <div class="p-field p-col-3 p-field-checkbox">
+                    <p-checkbox label="多張帳單合併一張發票" [(ngModel)]="customer.flag7" [binary]="true" inputId="flag7"
+                      [readonly]="true"></p-checkbox>
+                  </div>
+                </div>
+              </p-fieldset>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="showCustomerDialog" [style]="{ width: '95%' }" header="客戶主檔維護" [modal]="true"
+  styleClass="p-fluid">
+  <div style="margin: 5px;"></div>
+  <ng-template pTemplate="caption">sss</ng-template>
+  <ng-template pTemplate="content">
+    <p-accordion [multiple]="true" (onClose)="onTabClose($event)" (onOpen)="onTabOpen($event)">
+      <p-accordionTab header="客戶基本資料" [selected]="false">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-3">
+            <label for="customerId">客戶帳號</label>
+            <input id="customerId" type="text" pInputText readonly disabled [value]="updateCustomer.customerId" />
+          </div>
+          <div class="p-field p-col-3">
+            <label for="lastname1">統一編號</label>
+            <input id="taxId" type="text" pInputText [value]="updateCustomer.taxId" />
+          </div>
+          <div class="p-field p-col-3">
+            <label for="engAddress">聯絡人姓名(中文)</label>
+            <input id="contactName" type="text" pInputText [value]="updateCustomer.contactName" />
+          </div>
+          <div class="p-field p-col-3">
+            <label for="engAddress">聯絡人姓名(英文)</label>
+            <input id="engContactName" type="text" pInputText [value]="updateCustomer.engContactName" />
+          </div>
+          <div class="p-field p-col-3">
+            <label for="engAddress">電子信箱</label>
+            <input id="email" type="text" pInputText [value]="updateCustomer.email" />
+          </div>
+          <div class="p-field p-col-9"></div>
+          <div class="p-field p-col-6">
+            <label for="lastname1">公司名稱(中文)</label>
+            <input id="lastname1" type="text" pInputText [value]="updateCustomer.name" />
+          </div>
+          <div class="p-field p-col-6">
+            <label for="lastname1">公司名稱(英文)</label>
+            <input id="lastname1" type="text" pInputText [value]="updateCustomer.engName" />
+          </div>
+          <div class="p-field p-col-6">
+            <label for="lastname1">公司地址(中文)</label>
+            <input id="address" type="text" pInputText [value]="updateCustomer.address" />
+          </div>
+          <div class="p-field p-col-6">
+            <label for="engAddress">公司地址(英文)</label>
+            <input id="engAddress" type="text" pInputText [value]="updateCustomer.engAddress" />
+          </div>
+          <div class="p-field p-col-3">
+            <label for="lastname1">Reference 2</label>
+            <input id="lastname1" type="text" pInputText [value]="updateCustomer.reference2" />
+          </div>
+          <div class="p-field p-col-3">
+            <label for="lastname1">Reference 3</label>
+            <input id="lastname1" type="text" pInputText [value]="updateCustomer.reference3" />
+          </div>
+          <div class="p-field p-col-6">
+            <label for="lastname1">客戶備註</label>
+            <input id="memo" type="text" pInputText [value]="updateCustomer.memo" />
+          </div>
+          <div class="p-field p-col-3">
+            <div class="p-field-checkbox">
+              <p-checkbox label="危險地區標記" [(ngModel)]="updateCustomer.flag8" [binary]="true" inputId="flag8">
+              </p-checkbox>
+            </div>
+          </div>
+          <div class="p-field p-col-1">
+            <div class="p-field-checkbox">
+              &NonBreakingSpace;
+              <p-checkbox label="指定收據章" [(ngModel)]="updateCustomer.flag9" [binary]="true" inputId="flag9">
+              </p-checkbox>
+            </div>
+          </div>
+          <div class="p-field p-col-2">
+            <label for="flag9_01" [style]="{ width: '20px;' }">收據章服務中心</label>
+            <p-dropdown [options]="serviceCenters" [(ngModel)]="updateCustomer.flag9_01" optionLabel="name"
+              placeholder="服務中心"></p-dropdown>
+          </div>
+          <div class="p-field p-col-3">
+            <div class="p-field-checkbox">
+              <p-checkbox label="顯示燃油附加費率" [(ngModel)]="updateCustomer.flag10" [binary]="true" inputId="flag10">
+              </p-checkbox>
+            </div>
+          </div>
+          <div class="p-field p-col-3">
+            <div class="p-field-checkbox">
+              <p-checkbox label="不印帳單" [(ngModel)]="updateCustomer.flag11" [binary]="true" inputId="flag11">
+              </p-checkbox>
+            </div>
+          </div>
+        </div>
+      </p-accordionTab>
+      <p-accordionTab header="帳單設定" [selected]="false"> </p-accordionTab>
+      <p-accordionTab header="自動開立發票設定" [selected]="true">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-3">
+            <div class="p-field-checkbox">
+              <p-checkbox label="不自動開立發票" [(ngModel)]="updateCustomer.flag1" [binary]="true" inputId="flag1">
+              </p-checkbox>
+            </div>
+          </div>
+          <div class="p-field p-col-9">
+            <div *ngIf="updateCustomer.flag1" class="p-field p-col-3">
+              客戶群組備註
+              <input id="flag1_01" type="text" pInputText style2="width: 80px" [value]="updateCustomer.flag1_01" />
+            </div>
+          </div>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="自動開立發票設定" [selected]="true">
+        <div class="card">
+          <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-3">
+              <div class="p-field-checkbox">
+                <p-checkbox label="不自動開立發票" [(ngModel)]="updateCustomer.flag1" [binary]="true" inputId="flag1">
+                </p-checkbox>
+              </div>
+            </div>
+            <div class="p-field p-col-3" style="display: none;">
+              客戶群組備註
+              <input id="flag1_01" type="text" pInputText style2="width: 80px" [value]="updateCustomer.flag1_01" />
+            </div>
+          </div>
+          <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-3">
+              <div class="p-field-checkbox">
+                <p-checkbox label="改開次月發票(1~11月份)" [(ngModel)]="updateCustomer.flag2_M" [binary]="true"
+                  inputId="flag2_M" (change)="showFlag2($event)"></p-checkbox>
+              </div>
+            </div>
+            <div class="p-field p-col-9">
+              <div *ngIf="updateCustomer.flag2_M" class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-3">
+                  <label for="flag2_M_02">改開前日期</label>
+                  <input id="flag2_M_02" type="text" pInputText style2="width: 80px;"
+                    [value]="updateCustomer.flag2_M_02" />
+                </div>
+                <div class="p-field p-col-3">
+                  <label for="flag2_M_03">改開前日期</label>
+                  <input id="flag2_M_03" type="text" pInputText style2="width: 80px"
+                    [value]="updateCustomer.flag2_M_03" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-3">
+              <div class="p-field-checkbox">
+                <p-checkbox label="改開次年發票(12月份)" [(ngModel)]="updateCustomer.flag2_Y" [binary]="true" inputId="flag2_Y"
+                  (onChange)="showFlag2($event)"></p-checkbox>
+              </div>
+            </div>
+
+            <div class="p-field p-col-9">
+              <div *ngIf="updateCustomer.flag2_Y" class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-3">
+                  <label for="flag2_Y_02">改開前日期</label>
+                  <input id="flag2_Y_02" type="text" pInputText style2="width: 80px;"
+                    [value]="updateCustomer.flag2_Y_02" />
+                </div>
+                <div class="p-field p-col-3">
+                  <label for="flag2_Y_03">改開後日期</label>
+                  <input id="flag2_Y_03" type="text" pInputText style2="width: 80px"
+                    [value]="updateCustomer.flag2_Y_03" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-field">
+            <div class="p-field-checkbox">
+              <p-checkbox label="依提單開立多張發票" [(ngModel)]="updateCustomer.flag3" [binary]="true" inputId="flag3">
+              </p-checkbox>
+            </div>
+          </div>
+          <div class="p-field">
+            <div class="p-field-checkbox">
+              <p-checkbox label="重新計算5%稅額" [(ngModel)]="updateCustomer.flag4" [binary]="true" inputId="flag4">
+              </p-checkbox>
+            </div>
+          </div>
+          <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-3">
+              <div class="p-field-checkbox">
+                <p-checkbox label="改開立發票的服務中心" [(ngModel)]="updateCustomer.flag5" [binary]="true" inputId="flag5">
+                </p-checkbox>
+              </div>
+            </div>
+            <div class="p-field p-col-9">
+              <div *ngIf="updateCustomer.flag5" class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-3">
+                  原本的帳單服務中心
+                  <p-dropdown [options]="serviceCenters" [(ngModel)]="oriServiceCenter" optionLabel="name"
+                    placeholder="服務中心"></p-dropdown>
+                </div>
+                <div class="p-field p-col-3">
+                  改開立發票的服務中心
+                  <p-dropdown [options]="serviceCenters" [(ngModel)]="newServiceCenter" optionLabel="name"
+                    placeholder="服務中心"></p-dropdown>
+                </div>
+                <div class="p-field p-col-1">
+                  &nbsp;
+                  <button pButton pRipple label="新增" icon="pi pi-plus" class2="p-button-text"
+                    (click)="addServiceCenter($event)" style="width: 100px; height: 40px" [disabled]="
+                      !(oriServiceCenter && newServiceCenter) ||
+                      oriServiceCenter == newServiceCenter
+                    "></button>
+                </div>
+                <div class="p-field p-col-3"></div>
+                <div class="p-field p-col-6">
+                  <p-table #dt2 [value]="updateServiceCenters" dataKey="source.name" styleClass="p-datatable-gridlines"
+                    [(selection)]="selectedServiceCenters">
+                    <ng-template pTemplate="caption">
+                      <div class="p-d-flex p-ai-center p-jc-end">
+                        <p-button icon="pi pi-trash" label="刪除" (click)="deleteSelecteServiceCenters()" [disabled]="
+                            !selectedServiceCenters ||
+                            !selectedServiceCenters.length
+                          "></p-button>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th style="width: 3rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>原本的帳單服務中心</th>
+                        <th>改開立發票的服務中心</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-serviceCenter>
+                      <tr>
+                        <td>
+                          <p-tableCheckbox [value]="serviceCenter"></p-tableCheckbox>
+                        </td>
+                        <td>{{ serviceCenter.source.name }}</td>
+                        <td>{{ serviceCenter.target.name }}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-field">
+            <div class="p-field-checkbox">
+              <p-checkbox label="因零稅率需改開二聯式發票" [(ngModel)]="updateCustomer.flag6" [binary]="true" inputId="flag6">
+              </p-checkbox>
+            </div>
+          </div>
+
+          <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-3">
+              <div class="p-field-checkbox">
+                <p-checkbox label="多張帳單合併一張發票" [(ngModel)]="updateCustomer.flag7" [binary]="true" inputId="flag7">
+                </p-checkbox>
+              </div>
+            </div>
+            <div class="p-field p-col-9">
+              <div *ngIf="updateCustomer.flag7" class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                  <label for="flag2_Y_02">開票日期</label>
+                  <input id="flag7_01" type="text" pInputText style2="width: 80px;" [value]="updateCustomer.flag7_01" />
+                </div>
+                <div class="p-field p-col-4">
+                  <label for="flag2_Y_03">頻率</label>
+                  <input id="flag7_02" type="text" pInputText style2="width: 80px" [value]="updateCustomer.flag7_02" />
+                </div>
+                <div class="p-field p-col-4"></div>
+                <div class="p-field p-col-4">
+                  <p-checkbox label="是否需合併多個帳號" [(ngModel)]="updateCustomer.flag7_03" [binary]="true"
+                    inputId="flag7_03"></p-checkbox>
+                </div>
+                <div class="p-field p-col-4">
+                  欲合併的帳號
+                  <p-dropdown [options]="serviceCenters" [(ngModel)]="newServiceCenter" optionLabel="name"
+                    placeholder="服務中心"></p-dropdown>
+                </div>
+                <div class="p-field p-col-1">
+                  &nbsp;
+                  <button pButton pRipple label="新增" icon="pi pi-plus" class2="p-button-text"
+                    (click)="addServiceCenter($event)" style="width: 100px; height: 40px"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-accordionTab>
+      <p-accordionTab header="提單列印設定" [selected]="false">
+      </p-accordionTab>
+    </p-accordion>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="取消" icon="pi pi-times" class2="p-button-text"
+      (click)="hideCustomerDialog($event)"></button>
+    <button pButton pRipple label="更新" icon="pi pi-check" class2="p-button-text"
+      (click)="saveCustomer(); hideCustomerDialog($event)"></button>
+  </ng-template>
+</p-dialog>
