@@ -44,11 +44,13 @@
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/angular-calendar/css/angular-calendar.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/themes/saga-orange/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -120,11 +122,13 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/themes/saga-orange/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           }
         }
       }
