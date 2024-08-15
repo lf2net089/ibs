@@ -1,17 +1,29 @@
-
 import { Component } from '@angular/core';
+import { CurrencyPipe,CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @Component({
-  selector: 'app-manual-creation ',
+  selector: 'app-gui-manual-creation',
   templateUrl: './manual-creation.component.html',
   styleUrls: ['./manual-creation.component.less'],
   standalone: true,
-  imports: [AutoCompleteModule, CalendarModule, ButtonModule, SidebarModule,FormsModule ],
+  imports: [
+    AutoCompleteModule,
+    CalendarModule,
+    ButtonModule,
+    SidebarModule,
+    FormsModule,
+    TableModule,
+    ToastModule,
+    CommonModule
+  ],
+  providers: [MessageService,CurrencyPipe],
 })
 export class GUIManualCreationComponent {
   sidebarVisible: boolean = false;
@@ -25,9 +37,83 @@ export class GUIManualCreationComponent {
   filteredServiceCenters: any[] = [];
   filteredSources: any[] = [];
   filteredInvoiceNumbers: any[] = [];
+  guiList: any[] = [];
+  expandedRows: any = {};
+  selectedGUI: any;
+  constructor(private messageService: MessageService) {}
+
+  ngOnInit() {
+    this.guiList = [
+      {
+        guiNumber: 'GUI001',
+        guiDate: '2024-08-01',
+        customerId: 'CUST001',
+        taxId: '12345678',
+        serviceCenterCode: 'SCC001',
+        salesAmount: 1000,
+        taxAmount: 50,
+        totalAmount: 1050,
+        source: 'Auto',
+        reportingStatus: 'Reported',
+        taxCategory: 'Standard',
+        invoices: [
+          {
+            invoiceNumber: 'INV001',
+            invoiceDate: '2024-08-01',
+            customerId: 'CUST001',
+            taxId: '12345678',
+            serviceCenterCode: 'SCC001',
+            salesAmount: 500,
+            taxAmount: 25,
+            totalAmount: 525,
+          },
+          {
+            invoiceNumber: 'INV002',
+            invoiceDate: '2024-08-01',
+            customerId: 'CUST001',
+            taxId: '12345678',
+            serviceCenterCode: 'SCC001',
+            salesAmount: 500,
+            taxAmount: 25,
+            totalAmount: 525,
+          },
+        ],
+      },
+      {
+        guiNumber: 'GUI002',
+        guiDate: '2024-08-02',
+        customerId: 'CUST002',
+        taxId: '87654321',
+        serviceCenterCode: 'SCC002',
+        salesAmount: 2000,
+        taxAmount: 100,
+        totalAmount: 2100,
+        source: 'Manual',
+        reportingStatus: 'Pending',
+        taxCategory: 'Reduced',
+        invoices: [],
+      },
+    ];
+  }
 
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
+  }
+  onRowExpand(event: any) {
+    this.messageService.add({ severity: 'info', summary: 'Row Expanded', detail: 'GUI Number: ' + event.data.guiNumber });
+  }
+  onRowCollapse(event: any) {
+    this.messageService.add({ severity: 'info', summary: 'Row Collapsed', detail: 'GUI Number: ' + event.data.guiNumber });
+  }
+
+  expandAll() {
+    this.expandedRows = {};
+    this.guiList.forEach((gui) => {
+      this.expandedRows[gui.guiNumber] = true;
+    });
+  }
+  collapseAll() {
+    this.expandedRows = {};
   }
 
   filterCustomer(event: any) {

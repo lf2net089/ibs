@@ -22,7 +22,6 @@ import { GroupSettingsComponent } from './pages/permissions/group-settings.compo
 import { RoleSettingsComponent } from './pages/permissions/role-settings.component';
 import { FeatureSettingsComponent } from './pages/permissions/feature-settings.component';
 import { CustomerMaintenanceSettingComponent } from './pages/settings/customer-maintenance.component';
-import { CalendarComponent } from './pages/calendar/calendar.component';
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
