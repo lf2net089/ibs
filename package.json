@@ -30,6 +30,7 @@
     "ibs-web": "file:",
     "ng-zorro-antd": "^18.1.0",
     "ngx-permissions": "^17.1.0",
+    "primeflex": "^2.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.8",
     "rxjs": "~7.8.1",

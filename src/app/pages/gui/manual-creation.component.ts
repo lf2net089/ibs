@@ -132,7 +132,6 @@ export class GUIManualCreationComponent {
 
   filterSource(event: any) {
     const query = event.query;
-    // Simulate filtering logic for sources
     this.filteredSources = this.getSources().filter(source =>
       source.name.toLowerCase().includes(query.toLowerCase())
     );
@@ -140,7 +139,6 @@ export class GUIManualCreationComponent {
 
   filterInvoiceNumber(event: any) {
     const query = event.query;
-    // Simulate filtering logic for invoice numbers
     this.filteredInvoiceNumbers = this.getInvoiceNumbers().filter(invoice =>
       invoice.name.toLowerCase().includes(query.toLowerCase())
     );
