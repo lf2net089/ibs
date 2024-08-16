@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalendarModule } from 'angular-calendar';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { InputTextModule } from 'primeng/inputtext';
@@ -26,9 +24,7 @@ import { AvatarModule } from 'primeng/avatar';
 @NgModule({
   imports: [
     CommonModule,
-    NgbDatepickerModule,
     FormsModule,
-    CalendarModule,
     ContextMenuModule,
     InputTextModule,
     CheckboxModule,
@@ -51,9 +47,7 @@ import { AvatarModule } from 'primeng/avatar';
   ],
   exports: [
     CommonModule,
-    NgbDatepickerModule,
     FormsModule,
-    CalendarModule,
     ContextMenuModule,
     InputTextModule,
     CheckboxModule,

@@ -8,6 +8,11 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { Title } from '@angular/platform-browser';
 import { mainMenuItems, menuItems, homeItem } from './menu-config';
 import { filter } from 'rxjs/operators';
+interface MenuItem {
+  title: string;
+  url?: string;
+  children?: MenuItem[];
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,8 +25,8 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   isCollapsed = false;
   items: any[] = [];
-  mainMenuItems = mainMenuItems;
-  subMenuItems = menuItems;
+  mainMenuItems: MenuItem[] = mainMenuItems;
+  subMenuItems: MenuItem[] = menuItems;
   selectedParentMenuItem: any = null;
   selectedSubMenuItem: any = null;
 
@@ -60,7 +65,7 @@ export class AppComponent implements OnInit {
           this.items.push({ label: menuItem.parent.title, url: menuItem.parent.url });
         }
         if (menuItem.url !== '/' && menuItem.title !== homeItem.title) {
-          this.items.push({ label: menuItem.title, url: menuItem.url || '#' });
+          this.items.push({ label: menuItem.title, url: menuItem.url ?? '#' });
           this.titleService.setTitle(menuItem.title);
         }
       }
@@ -80,29 +85,34 @@ export class AppComponent implements OnInit {
     });
   }
 
-  findMenuItemByUrl(url: string, parent: any = null) {
-    let menuItem = this.mainMenuItems.find(item => item.url === url);
+  findMenuItemByUrl(url: string, parent: any = null): { parent: any; title: string; url?: string; children?: MenuItem[] } | null {
+    let menuItem = this.findMenuItem(this.mainMenuItems, url, parent);
     if (menuItem) {
-      return { ...menuItem, parent };
+      return menuItem;
     }
 
     for (const parentItem of this.subMenuItems) {
-      if (parentItem.children) {
-        for (const childItem of parentItem.children) {
-          if (childItem.children) {
-            menuItem = childItem.children.find(child => child.url === url);
-            if (menuItem) {
-              return { ...menuItem, parent: childItem };
-            }
-          } else if (childItem.url === url) {
-            return { ...childItem, parent: parentItem };
-          }
-        }
-      } else if (parentItem.url === url) {
-        return { ...parentItem, parent };
+      menuItem = this.findMenuItem(parentItem.children || [], url, parentItem);
+      if (menuItem) {
+        return menuItem;
       }
     }
 
+    return null;
+  }
+
+  private findMenuItem(menuItems: MenuItem[], url: string, parent: any): { parent: any; title: string; url?: string; children?: MenuItem[] } | null {
+    for (const item of menuItems) {
+      if (item.url === url) {
+        return { ...item, parent };
+      }
+      if (item.children) {
+        const found = this.findMenuItem(item.children, url, item);
+        if (found) {
+          return found;
+        }
+      }
+    }
     return null;
   }
 
