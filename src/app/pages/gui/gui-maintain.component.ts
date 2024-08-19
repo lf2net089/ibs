@@ -11,9 +11,9 @@ import { MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 
 @Component({
-  selector: 'app-gui-manual-creation',
-  templateUrl: './manual-creation.component.html',
-  styleUrls: ['./manual-creation.component.less'],
+  selector: 'app-gui-maintain',
+  templateUrl: './gui-maintain.component.html',
+  styleUrls: ['./gui-maintain.component.less'],
   standalone: true,
   imports: [
     AutoCompleteModule,
@@ -28,7 +28,7 @@ import { TagModule } from 'primeng/tag';
   ],
   providers: [MessageService, CurrencyPipe],
 })
-export class GUIManualCreationComponent {
+export class GUIMaintainComponent  {
   sidebarVisible: boolean = false;
   selectedCustomer: any;
   selectedServiceCenter: any;
@@ -44,6 +44,10 @@ export class GUIManualCreationComponent {
   expandedRows: any = {};
   selectedGUI: any;
   expandedSubRows: { [key: string]: boolean } = {};
+  selectedRow: any;
+  selectedInvoice: any;
+  selectedBill: any;
+  issueType: any;
   constructor(private messageService: MessageService) { }
 
   ngOnInit() {
@@ -57,7 +61,7 @@ export class GUIManualCreationComponent {
         salesAmount: 1000,
         taxAmount: 50,
         totalAmount: 1050,
-        source: 'Auto',
+        issueType: 'Auto',
         reportingStatus: 'Reported',
         taxCategory: 'Standard',
         invoices: [
@@ -118,7 +122,7 @@ export class GUIManualCreationComponent {
         salesAmount: 2000,
         taxAmount: 100,
         totalAmount: 2100,
-        source: 'Manual',
+        issueType: 'Manual',
         reportingStatus: 'Pending',
         taxCategory: 'Reduced',
         invoices: [],
@@ -240,7 +244,6 @@ export class GUIManualCreationComponent {
     }
   }
 
-
   getCustomers() {
     return [
       { name: 'Customer 1' },
@@ -273,4 +276,29 @@ export class GUIManualCreationComponent {
       { name: 'Invoice 3' },
     ];
   }
+
+  onRowSelect(event: any) {
+    console.log('Row selected', event.data);
+  }
+
+  onRowUnselect(event: any) {
+    console.log('Row unselected', event.data);
+  }
+
+  onInvoiceSelect(event: any) {
+    console.log('Invoice selected', event.data);
+  }
+
+  onInvoiceUnselect(event: any) {
+    console.log('Invoice unselected', event.data);
+  }
+
+  onBillSelect(event: any) {
+    console.log('Bill selected', event.data);
+  }
+
+  onBillUnselect(event: any) {
+    console.log('Bill unselected', event.data);
+  }
+
 }
