@@ -52,3 +52,61 @@ button.p-button-secondary {
   color: #fff;
 }
 
+.transparent-caption {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.25rem 0 !important;
+}
+
+.transparent-caption .p-button {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  color: inherit !important;
+}
+
+.transparent-caption .p-button-icon {
+  color: inherit !important;
+}
+
+
+.header {
+  text-align: center;
+}
+
+.cell {
+  text-align: center;
+}
+
+.invoice-header {
+  @extend .header;
+  background-color: #d1d9e1;
+}
+
+.invoice-cell {
+  @extend .cell;
+  background-color: #e8eef4;
+}
+
+.bill-header {
+  @extend .header;
+  background-color: #ffe6e6;
+}
+
+.bill-cell {
+  @extend .cell;
+  background-color: #fff2f2;
+}
+
+.invoice-header p-button {
+  background-color: #d1d9e1;
+  border: none;
+}
+
+.bill-header p-button {
+  background-color: #ffe6e6;
+  border: none;
+}
+

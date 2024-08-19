@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CurrencyPipe,CommonModule } from '@angular/common';
+import { CurrencyPipe, CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';
@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { TagModule } from 'primeng/tag';
+
 @Component({
   selector: 'app-gui-manual-creation',
   templateUrl: './manual-creation.component.html',
@@ -21,9 +23,10 @@ import { MessageService } from 'primeng/api';
     FormsModule,
     TableModule,
     ToastModule,
-    CommonModule
+    CommonModule,
+    TagModule
   ],
-  providers: [MessageService,CurrencyPipe],
+  providers: [MessageService, CurrencyPipe],
 })
 export class GUIManualCreationComponent {
   sidebarVisible: boolean = false;
@@ -40,7 +43,8 @@ export class GUIManualCreationComponent {
   guiList: any[] = [];
   expandedRows: any = {};
   selectedGUI: any;
-  constructor(private messageService: MessageService) {}
+  expandedSubRows: { [key: string]: boolean } = {};
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() {
     this.guiList = [
@@ -78,6 +82,32 @@ export class GUIManualCreationComponent {
             totalAmount: 525,
           },
         ],
+        bills: [
+          {
+            billNumber: 'BL001',
+            shippingDate: '2024-08-03',
+            productCategory: 'Electronics',
+            productName: 'Laptop',
+            origin: 'Taipei',
+            destination: 'New York',
+            surcharge: 50,
+            freight: 100,
+            discount: 10,
+            netAmount: 140,
+          },
+          {
+            billNumber: 'BL002',
+            shippingDate: '2024-08-03',
+            productCategory: 'Electronics',
+            productName: 'Smartphone',
+            origin: 'Taipei',
+            destination: 'Los Angeles',
+            surcharge: 30,
+            freight: 80,
+            discount: 5,
+            netAmount: 105,
+          },
+        ],
       },
       {
         guiNumber: 'GUI002',
@@ -92,6 +122,20 @@ export class GUIManualCreationComponent {
         reportingStatus: 'Pending',
         taxCategory: 'Reduced',
         invoices: [],
+        bills: [
+          {
+            billNumber: 'BL003',
+            shippingDate: '2024-08-04',
+            productCategory: 'Furniture',
+            productName: 'Table',
+            origin: 'Kaohsiung',
+            destination: 'San Francisco',
+            surcharge: 70,
+            freight: 150,
+            discount: 15,
+            netAmount: 205,
+          },
+        ],
       },
     ];
   }
@@ -108,12 +152,49 @@ export class GUIManualCreationComponent {
 
   expandAll() {
     this.expandedRows = {};
-    this.guiList.forEach((gui) => {
+    this.expandedSubRows = {};
+
+    this.guiList.forEach(gui => {
       this.expandedRows[gui.guiNumber] = true;
+
+      gui.invoices?.forEach((invoice: any) => {
+        const invoiceKey = 'invoice-' + gui.guiNumber;
+        this.expandedSubRows[invoiceKey] = true;
+      });
+
+      gui.bills?.forEach((bill: any) => {
+        const billKey = 'bill-' + gui.guiNumber;
+        this.expandedSubRows[billKey] = true;
+      });
     });
   }
+
+
   collapseAll() {
     this.expandedRows = {};
+    this.expandedSubRows = {};
+  }
+
+
+
+  toggleRow(rowKey: string) {
+    if (this.expandedRows[rowKey]) {
+      delete this.expandedRows[rowKey];
+    } else {
+      this.expandedRows[rowKey] = true;
+    }
+  }
+
+  toggleSubRow(rowKey: string) {
+    if (this.expandedSubRows[rowKey]) {
+      delete this.expandedSubRows[rowKey];
+    } else {
+      this.expandedSubRows[rowKey] = true;
+    }
+  }
+
+  isRowExpanded(rowKey: string): boolean {
+    return !!this.expandedSubRows[rowKey];
   }
 
   filterCustomer(event: any) {
@@ -143,6 +224,22 @@ export class GUIManualCreationComponent {
       invoice.name.toLowerCase().includes(query.toLowerCase())
     );
   }
+
+  getReportingStatusSeverity(status: string): "success" | "info" | "warning" | "danger" | "secondary" | undefined {
+    switch (status) {
+      case 'Reported':
+        return 'success';
+      case 'Pending':
+        return 'warning';
+      case 'Failed':
+        return 'danger';
+      case 'In Progress':
+        return 'info';
+      default:
+        return 'secondary';  // default for any other status
+    }
+  }
+
 
   getCustomers() {
     return [

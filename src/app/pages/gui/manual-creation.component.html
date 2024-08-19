@@ -1,5 +1,4 @@
 <p-toast></p-toast>
-<button pButton type="button" icon="pi pi-filter" (click)="toggleSidebar()" label="Toggle Sidebar"></button>
 <p-table
   [value]="guiList"
   dataKey="guiNumber"
@@ -11,13 +10,37 @@
   scrollHeight="545px"
   [paginator]="true"
   [rows]="10"
+
 >
-  <ng-template pTemplate="caption">
-    <div class="flex flex-wrap justify-content-end gap-2">
-      <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
-      <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" />
+<ng-template pTemplate="caption">
+  <div class="flex align-items-center transparent-caption" style="display: flex; justify-content: space-between; width: 100%;">
+    <p-button
+      label="Query Criteria"
+      icon="pi pi-filter"
+      text
+      styleClass="p-button-sm p-button-text p-0"
+      (click)="toggleSidebar()"
+    ></p-button>
+    <div class="flex" style="gap: 10px;">
+      <p-button
+        label="Expand All"
+        icon="pi pi-plus"
+        text
+        styleClass="p-button-sm p-button-text p-0"
+        (onClick)="expandAll()"
+      ></p-button>
+      <p-button
+        label="Collapse All"
+        icon="pi pi-minus"
+        text
+        styleClass="p-button-sm p-button-text p-0"
+        (onClick)="collapseAll()"
+      ></p-button>
     </div>
-  </ng-template>
+  </div>
+</ng-template>
+
+
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 5rem"></th>
@@ -37,8 +60,16 @@
   <ng-template pTemplate="body" let-gui let-expanded="expanded">
     <tr>
       <td>
-        <p-button type="button" pRipple [pRowToggler]="gui" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
-      </td>
+        <p-button
+        type="button"
+        pRipple
+        [pRowToggler]="gui"
+        [text]="true"
+        [rounded]="true"
+        [plain]="true"
+        *ngIf="gui.invoices && gui.invoices.length > 0"
+        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+      />      </td>
       <td>{{ gui.guiNumber }}</td>
       <td>{{ gui.guiDate }}</td>
       <td>{{ gui.customerId }}</td>
@@ -48,42 +79,96 @@
       <td>{{ gui.taxAmount | currency }}</td>
       <td>{{ gui.totalAmount | currency }}</td>
       <td>{{ gui.source }}</td>
-      <td>{{ gui.reportingStatus }}</td>
-      <td>{{ gui.taxCategory }}</td>
+      <td>
+        <p-tag [value]="gui.reportingStatus" [severity]="getReportingStatusSeverity(gui.reportingStatus)"></p-tag>
+      </td>
+            <td>{{ gui.taxCategory }}</td>
     </tr>
   </ng-template>
   <ng-template pTemplate="rowexpansion" let-gui>
     <tr>
       <td colspan="12">
-        <div class="p-3">
+        <div class="p-3" *ngIf="gui.invoices && gui.invoices.length > 0">
           <p-table [value]="gui.invoices" dataKey="invoiceNumber">
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="invoiceNumber">帳單號碼<p-sortIcon field="invoiceNumber" /></th>
-                <th pSortableColumn="invoiceDate">帳單日期<p-sortIcon field="invoiceDate" /></th>
-                <th pSortableColumn="customerId">客戶帳號<p-sortIcon field="customerId" /></th>
-                <th pSortableColumn="taxId">統一編號<p-sortIcon field="taxId" /></th>
-                <th pSortableColumn="serviceCenterCode">服務中心代碼<p-sortIcon field="serviceCenterCode" /></th>
-                <th pSortableColumn="salesAmount">銷售額<p-sortIcon field="salesAmount" /></th>
-                <th pSortableColumn="taxAmount">稅額 <p-sortIcon field="taxAmount" /></th>
-                <th pSortableColumn="totalAmount">總計金額<p-sortIcon field="totalAmount" /></th>
+                <th class="invoice-header"  style="width: 2rem;">
+                  <p-button
+                    type="button"
+                    pRipple
+                    [icon]="isRowExpanded('invoice-' + gui.guiNumber) ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                    (click)="toggleSubRow('invoice-' + gui.guiNumber)"
+                    class="p-button-text p-button-plain p-button-rounded"
+                    styleClass="invoice-header p-button-sm p-button-text"
+                  ></p-button>
+                </th>
+                <!-- Existing Columns -->
+                <th class="invoice-header" pSortableColumn="invoiceNumber">帳單號碼<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
+                <th class="invoice-header" pSortableColumn="invoiceDate">帳單日期<p-sortIcon field="invoiceDate"></p-sortIcon></th>
+                <th class="invoice-header" pSortableColumn="customerId">客戶帳號<p-sortIcon field="customerId"></p-sortIcon></th>
+                <th class="invoice-header" pSortableColumn="taxId">統一編號<p-sortIcon field="taxId"></p-sortIcon></th>
+                <th class="invoice-header" pSortableColumn="serviceCenterCode">服務中心代碼<p-sortIcon field="serviceCenterCode"></p-sortIcon></th>
+                <th class="invoice-header" pSortableColumn="salesAmount">銷售額<p-sortIcon field="salesAmount"></p-sortIcon></th>
+                <th class="invoice-header" pSortableColumn="taxAmount">稅額<p-sortIcon field="taxAmount"></p-sortIcon></th>
+                <th class="invoice-header" pSortableColumn="totalAmount">總計金額<p-sortIcon field="totalAmount"></p-sortIcon></th>
               </tr>
             </ng-template>
+
             <ng-template pTemplate="body" let-invoice>
-              <tr>
-                <td>{{ invoice.invoiceNumber }}</td>
-                <td>{{ invoice.invoiceDate }}</td>
-                <td>{{ invoice.customerId }}</td>
-                <td>{{ invoice.taxId }}</td>
-                <td>{{ invoice.serviceCenterCode }}</td>
-                <td>{{ invoice.salesAmount | currency }}</td>
-                <td>{{ invoice.taxAmount | currency }}</td>
-                <td>{{ invoice.totalAmount | currency }}</td>
+              <tr *ngIf="isRowExpanded('invoice-' + gui.guiNumber)">
+                <td class="invoice-cell"></td>
+                <td class="invoice-cell">{{ invoice.invoiceNumber }}</td>
+                <td class="invoice-cell">{{ invoice.invoiceDate }}</td>
+                <td class="invoice-cell">{{ invoice.customerId }}</td>
+                <td class="invoice-cell">{{ invoice.taxId }}</td>
+                <td class="invoice-cell">{{ invoice.serviceCenterCode }}</td>
+                <td class="invoice-cell">{{ invoice.salesAmount | currency }}</td>
+                <td class="invoice-cell">{{ invoice.taxAmount | currency }}</td>
+                <td class="invoice-cell">{{ invoice.totalAmount | currency }}</td>
               </tr>
             </ng-template>
-            <ng-template pTemplate="emptymessage">
+          </p-table>
+        </div>
+        <div class="p-3" *ngIf="gui.bills && gui.bills.length > 0">
+          <p-table [value]="gui.bills" dataKey="billNumber">
+            <ng-template pTemplate="header">
               <tr>
-                <td colspan="8">No invoices available for this GUI.</td>
+                <th class="bill-header" style="width: 2rem;">
+                  <p-button
+                    type="button"
+                    pRipple
+                    [icon]="isRowExpanded('bill-' + gui.guiNumber) ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                    (click)="toggleSubRow('bill-' + gui.guiNumber)"
+                    class="p-button-text p-button-plain p-button-rounded"
+                    styleClass="bill-header p-button-sm p-button-text"
+                  ></p-button>
+                </th>
+                <th class="bill-header" pSortableColumn="billNumber">提單號碼<p-sortIcon field="billNumber"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="shippingDate">運送日期<p-sortIcon field="shippingDate"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="productCategory">產品類別<p-sortIcon field="productCategory"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="productName">產品名稱<p-sortIcon field="productName"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="origin">出貨地<p-sortIcon field="origin"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="destination">目的地<p-sortIcon field="destination"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="surcharge">附加費<p-sortIcon field="surcharge"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="freight">運費<p-sortIcon field="freight"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="discount">折扣<p-sortIcon field="discount"></p-sortIcon></th>
+                <th class="bill-header" pSortableColumn="netAmount">淨額<p-sortIcon field="netAmount"></p-sortIcon></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-bill>
+              <tr *ngIf="isRowExpanded('bill-' + gui.guiNumber)">
+                <td class="bill-cell"></td>
+                <td class="bill-cell">{{ bill.billNumber }}</td>
+                <td class="bill-cell">{{ bill.shippingDate }}</td>
+                <td class="bill-cell">{{ bill.productCategory }}</td>
+                <td class="bill-cell">{{ bill.productName }}</td>
+                <td class="bill-cell">{{ bill.origin }}</td>
+                <td class="bill-cell">{{ bill.destination }}</td>
+                <td class="bill-cell">{{ bill.surcharge | currency }}</td>
+                <td class="bill-cell">{{ bill.freight | currency }}</td>
+                <td class="bill-cell">{{ bill.discount | currency }}</td>
+                <td class="bill-cell">{{ bill.netAmount | currency }}</td>
               </tr>
             </ng-template>
           </p-table>
@@ -91,6 +176,7 @@
       </td>
     </tr>
   </ng-template>
+
   <ng-template pTemplate="footer">
     <tr>
       <td colspan="12" class="text-right">Total GUIs: {{ guiList.length }}</td>
@@ -115,7 +201,6 @@
       </p-autoComplete>
     </div>
 
-    <!-- Input for Invoice Number using p-autoComplete with autocomplete disabled -->
     <div class="form-row">
       <label for="invoiceNumber">發票號碼</label>
       <p-autoComplete
@@ -129,7 +214,6 @@
       </p-autoComplete>
     </div>
 
-    <!-- Datepicker for Invoice Date Range -->
     <div class="form-grid">
       <table style="width: 90%;">
         <tr>
@@ -159,8 +243,6 @@
       </table>
     </div>
 
-
-    <!-- AutoComplete for Service Center -->
     <div class="form-row">
       <label for="serviceCenter">服務中心</label>
       <p-autoComplete
@@ -174,7 +256,6 @@
       </p-autoComplete>
     </div>
 
-    <!-- Input for Source using p-autoComplete with autocomplete disabled -->
     <div class="form-row">
       <label for="source">開立來源</label>
       <p-autoComplete
@@ -188,7 +269,6 @@
       </p-autoComplete>
     </div>
 
-    <!-- Buttons -->
     <div class="form-row form-buttons" style="margin-top: 20px;">
       <table style="width: 96%;">
         <tr>
@@ -205,4 +285,3 @@
   </div>
 </p-sidebar>
 
-<!-- Button to Toggle Sidebar -->
