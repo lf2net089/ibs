@@ -53,24 +53,24 @@ export class GUIMaintainComponent  {
   ngOnInit() {
     this.guiList = [
       {
-        guiNumber: 'GUI001',
+        guiNumber: 'AB12345678',
         guiDate: '2024-08-01',
         customerId: 'CUST001',
         taxId: '12345678',
-        serviceCenterCode: 'SCC001',
+        serviceCenterCode: 'ABC',
         salesAmount: 1000,
         taxAmount: 50,
         totalAmount: 1050,
-        issueType: 'Auto',
-        reportingStatus: 'Reported',
-        taxCategory: 'Standard',
+        issueType: '自動開立', // A.自動開立
+        reportingStatus: '已月結', // 已月結
+        taxCategory: '應稅', // 應稅
         invoices: [
           {
             invoiceNumber: 'INV001',
             invoiceDate: '2024-08-01',
             customerId: 'CUST001',
             taxId: '12345678',
-            serviceCenterCode: 'SCC001',
+            serviceCenterCode: 'ABC',
             salesAmount: 500,
             taxAmount: 25,
             totalAmount: 525,
@@ -80,7 +80,7 @@ export class GUIMaintainComponent  {
             invoiceDate: '2024-08-01',
             customerId: 'CUST001',
             taxId: '12345678',
-            serviceCenterCode: 'SCC001',
+            serviceCenterCode: 'ABC',
             salesAmount: 500,
             taxAmount: 25,
             totalAmount: 525,
@@ -114,17 +114,17 @@ export class GUIMaintainComponent  {
         ],
       },
       {
-        guiNumber: 'GUI002',
+        guiNumber: 'CD87654321',
         guiDate: '2024-08-02',
         customerId: 'CUST002',
         taxId: '87654321',
-        serviceCenterCode: 'SCC002',
+        serviceCenterCode: 'DEF',
         salesAmount: 2000,
         taxAmount: 100,
         totalAmount: 2100,
-        issueType: 'Manual',
-        reportingStatus: 'Pending',
-        taxCategory: 'Reduced',
+        issueType: '手動開立', // M.手動開立
+        reportingStatus: '凍結中', // 凍結中
+        taxCategory: '零稅', // 零稅
         invoices: [],
         bills: [
           {
@@ -138,6 +138,84 @@ export class GUIMaintainComponent  {
             freight: 150,
             discount: 15,
             netAmount: 205,
+          },
+        ],
+      },
+      {
+        guiNumber: 'EF23456789',
+        guiDate: '2024-08-03',
+        customerId: 'CUST003',
+        taxId: '23456789',
+        serviceCenterCode: 'GHI',
+        salesAmount: 3000,
+        taxAmount: 150,
+        totalAmount: 3150,
+        issueType: 'POS開立', // P.POS開立
+        reportingStatus: '未月結', // 未月結
+        taxCategory: '應稅', // 應稅
+        invoices: [
+          {
+            invoiceNumber: 'INV003',
+            invoiceDate: '2024-08-03',
+            customerId: 'CUST003',
+            taxId: '23456789',
+            serviceCenterCode: 'GHI',
+            salesAmount: 1500,
+            taxAmount: 75,
+            totalAmount: 1575,
+          },
+        ],
+        bills: [
+          {
+            billNumber: 'BL004',
+            shippingDate: '2024-08-05',
+            productCategory: 'Appliances',
+            productName: 'Washing Machine',
+            origin: 'Tainan',
+            destination: 'Chicago',
+            surcharge: 100,
+            freight: 200,
+            discount: 20,
+            netAmount: 280,
+          },
+        ],
+      },
+      {
+        guiNumber: 'GH34567890',
+        guiDate: '2024-08-04',
+        customerId: 'CUST004',
+        taxId: '34567890',
+        serviceCenterCode: 'JKL',
+        salesAmount: 4000,
+        taxAmount: 200,
+        totalAmount: 4200,
+        issueType: '綠界開立', // G.綠界開立
+        reportingStatus: '已申報關帳', // 已申報關帳
+        taxCategory: '零稅', // 零稅
+        invoices: [
+          {
+            invoiceNumber: 'INV004',
+            invoiceDate: '2024-08-04',
+            customerId: 'CUST004',
+            taxId: '34567890',
+            serviceCenterCode: 'JKL',
+            salesAmount: 2000,
+            taxAmount: 100,
+            totalAmount: 2100,
+          },
+        ],
+        bills: [
+          {
+            billNumber: 'BL005',
+            shippingDate: '2024-08-06',
+            productCategory: 'Books',
+            productName: 'Novel',
+            origin: 'Taichung',
+            destination: 'London',
+            surcharge: 20,
+            freight: 40,
+            discount: 5,
+            netAmount: 55,
           },
         ],
       },
@@ -231,18 +309,20 @@ export class GUIMaintainComponent  {
 
   getReportingStatusSeverity(status: string): "success" | "info" | "warning" | "danger" | "secondary" | undefined {
     switch (status) {
-      case 'Reported':
+      case '已月結':
         return 'success';
-      case 'Pending':
+      case '凍結中':
         return 'warning';
-      case 'Failed':
-        return 'danger';
-      case 'In Progress':
+      case '未月結':
         return 'info';
+      case '已申報關帳':
+      case '已二次申報關帳':
+        return 'success';
       default:
-        return 'secondary';  // default for any other status
+        return 'secondary';
     }
   }
+
 
   getCustomers() {
     return [
