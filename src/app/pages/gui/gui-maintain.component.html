@@ -1,18 +1,29 @@
 <p-toast></p-toast>
-<p-table [value]="guiList" dataKey="guiNumber" [tableStyle]="{ 'min-width': '60rem' }" [expandedRowKeys]="expandedRows"
-  (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)" scrollable="true" scrollHeight="545px"
-  [paginator]="true" [rows]="10" [(selection)]="selectedRow" (onRowSelect)="onRowSelect($event)"
-  (onRowUnselect)="onRowUnselect($event)">
+<p-table
+[value]="guiList"
+  dataKey="guiNumber"
+  scrollable="true"
+  scrollHeight="545px"
+  [tableStyle]="{ 'min-width': '60rem' }"
+  [expandedRowKeys]="expandedRows"
+  (onRowExpand)="onRowExpand($event)"
+  (onRowCollapse)="onRowCollapse($event)"
+  [paginator]="true"
+  [rows]="10"
+  [(selection)]="selectedRow"
+  (onRowSelect)="onRowSelect($event)"
+  (onRowUnselect)="onRowUnselect($event)"
+  class="full-height-table">
   <ng-template pTemplate="caption">
-    <div class="flex align-items-center transparent-caption"
-      style="display: flex; justify-content: space-between; width: 100%">
+    <div class="flex align-items-center transparent-caption compact-caption"
+      style="display: flex; justify-content: space-between; width: 100%;">
       <p-button label="Query Criteria" icon="pi pi-filter" text styleClass="p-button-sm p-button-text p-0"
         (click)="toggleSidebar()"></p-button>
       <div class="flex" style="gap: 10px">
         <p-button label="Expand All" icon="pi pi-plus" text styleClass="p-button-sm p-button-text p-0"
-          (onClick)="expandAll()"></p-button>
+          (click)="expandAll()"></p-button>
         <p-button label="Collapse All" icon="pi pi-minus" text styleClass="p-button-sm p-button-text p-0"
-          (onClick)="collapseAll()"></p-button>
+          (click)="collapseAll()"></p-button>
       </div>
     </div>
   </ng-template>

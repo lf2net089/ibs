@@ -111,18 +111,38 @@ button.p-button-secondary {
 }
 
 .p-table .p-datatable-tbody > tr.p-highlight {
-  background-color: #e6f7ff !important; /* Row background color when selected */
-  color: #000; /* Row text color when selected */
+  background-color: #e6f7ff !important;
+  color: #000;
 }
 
-/* Apply hover effect to main table rows */
 .p-datatable .p-datatable-tbody > tr:hover {
-  background-color: #f0f0f0; /* Adjust the color as needed */
-  cursor: pointer; /* Show pointer cursor on hover */
+  background-color: #f0f0f0;
+  cursor: pointer;
 }
 
-/* Apply hover effect to subtable rows */
 .p-datatable .p-datatable-tbody > tr:hover .sub-table-row {
-  background-color: #e0e0e0; /* Adjust the color for subtables */
+  background-color: #e0e0e0;
   cursor: pointer;
+}
+
+.compact-caption {
+  padding: 4px 0;
+}
+
+.full-height-table {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.full-height-table .p-datatable-scrollable-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 150px);
+  height: 620px;
+}
+
+.full-height-table .p-datatable-scrollable-header,
+.full-height-table .p-datatable-scrollable-footer {
+  flex-shrink: 0;
 }
