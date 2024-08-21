@@ -15,11 +15,14 @@
     <p-table [value]="guiList" dataKey="guiNumber" scrollable="true" scrollHeight="700px"
       [tableStyle]="{ 'min-width': '60rem', 'max-height': '100%' }" [expandedRowKeys]="expandedRows"
       (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)" [paginator]="true" [rows]="10"
-      [(selection)]="selectedRow" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
-      class="full-height-table">
+      [(selection)]="selectedRows" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+      class="full-height-table" [metaKeySelection]="false">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 5rem"></th>
+          <th pSortableColumn="guiNumber"></th>
+          <th style="width: 5rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
           <th pSortableColumn="guiNumber">
             發票號碼
             <p-sortIcon field="guiNumber" />
@@ -73,6 +76,9 @@
               *ngIf="gui.invoices && gui.invoices.length > 0"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
           </td>
+          <td>
+            <p-tableCheckbox [value]="gui"></p-tableCheckbox>
+          </td>
           <td>{{ gui.guiNumber }}</td>
           <td>{{ gui.guiDate }}</td>
           <td>{{ gui.customerId }}</td>
@@ -95,7 +101,10 @@
               <p-table [value]="gui.invoices" dataKey="invoiceNumber" [expandedRowKeys]="expandedRows">
                 <ng-template pTemplate="header">
         <tr class="invoice-header">
-          <th style="width: 2rem"></th>
+          <th pSortableColumn="invoiceNumber"></th>
+          <th style="width: 2rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
           <th pSortableColumn="invoiceNumber">帳單號碼<p-sortIcon field="invoiceNumber"></p-sortIcon>
           </th>
           <th pSortableColumn="invoiceDate">帳單日期<p-sortIcon field="invoiceDate"></p-sortIcon>
@@ -121,6 +130,9 @@
               *ngIf="invoice.bills && invoice.bills.length > 0"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
           </td>
+          <td>
+            <p-tableCheckbox [value]="invoice"></p-tableCheckbox>
+          </td>
           <td>{{ invoice.invoiceNumber }}</td>
           <td>{{ invoice.invoiceDate }}</td>
           <td>{{ invoice.customerId }}</td>
@@ -135,12 +147,16 @@
         <tr>
           <td colspan="12">
             <div class="p-3" *ngIf="invoice.bills && invoice.bills.length > 0">
-              <p-table [value]="invoice.bills" dataKey="billNumber" [(selection)]="selectedBill"
-                [tableStyle]="{ 'min-width': '55rem' }" (onRowSelect)="onBillSelect($event)"
-                (onRowUnselect)="onBillUnselect($event)">
+              <p-table [value]="invoice.bills" dataKey="billNumber"
+              [(selection)]="invoiceSelections[invoice.invoiceNumber]"
+              (onRowSelect)="onBillSelect($event, invoice.invoiceNumber)"
+              (onRowUnselect)="onBillUnselect($event, invoice.invoiceNumber)">
                 <ng-template pTemplate="header">
         <tr class="bill-header">
-          <th style="width: 2rem"></th>
+          <th pSortableColumn="billNumber"></th>
+          <th style="width: 2rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
           <th pSortableColumn="billNumber">提單號碼<p-sortIcon field="billNumber"></p-sortIcon>
           </th>
           <th pSortableColumn="shippingDate">運送日期<p-sortIcon field="shippingDate"></p-sortIcon>
@@ -166,6 +182,9 @@
       <ng-template pTemplate="body" let-bill>
         <tr class="bill-cell">
           <td></td>
+          <td>
+            <p-tableCheckbox [value]="bill"></p-tableCheckbox>
+          </td>
           <td>{{ bill.billNumber }}</td>
           <td>{{ bill.shippingDate }}</td>
           <td>{{ bill.productCategory }}</td>

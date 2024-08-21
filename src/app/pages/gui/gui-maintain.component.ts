@@ -92,6 +92,9 @@ export class GUIMaintainComponent {
   selectedBill: Bill | null = null;
   issueType: any;
   invoice: Invoice | null = null;
+  selectedRows: any[] = [];
+  selectedBills: { invoiceNumber: string, billNumber: string }[] = [];
+  invoiceSelections: { [invoiceNumber: string]: any[] } = {};
 
   constructor(private messageService: MessageService, private cd: ChangeDetectorRef) { }
 
@@ -440,12 +443,20 @@ export class GUIMaintainComponent {
     console.log('Invoice unselected', event.data);
   }
 
-  onBillSelect(event: any) {
-    console.log('Bill selected', event.data);
+  onBillSelect(event: any, invoiceNumber: string) {
+    if (!this.invoiceSelections[invoiceNumber]) {
+      this.invoiceSelections[invoiceNumber] = [];
+    }
+    this.invoiceSelections[invoiceNumber].push(event.data);
   }
 
-  onBillUnselect(event: any) {
-    console.log('Bill unselected', event.data);
+  onBillUnselect(event: any, invoiceNumber: string) {
+    this.invoiceSelections[invoiceNumber] = this.invoiceSelections[invoiceNumber].filter(
+      (bill) => bill.billNumber !== event.data.billNumber
+    );
+  }
+  get uniqueBillKey() {
+    return (bill: any) => `${bill.invoiceNumber}-${bill.billNumber}`;
   }
 
 }
