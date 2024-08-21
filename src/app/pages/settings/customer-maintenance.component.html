@@ -412,7 +412,7 @@
                     <ng-template pTemplate="body" let-serviceCenter>
                       <tr>
                         <td>
-                          <p-tableCheckbox [value]="serviceCenter"></p-tableCheckbox>
+                          <p-tableCheckbox [value]="serviceCenter" (onChange)="onServiceCenterSelectionChange()"></p-tableCheckbox>
                         </td>
                         <td>{{ serviceCenter.source.name }}</td>
                         <td>{{ serviceCenter.target.name }}</td>

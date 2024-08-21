@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { CustomerMaintenanceSettingModule } from './customer-maintenance.component.module';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-customer-maintenance.',
@@ -18,9 +19,9 @@ export class CustomerMaintenanceSettingComponent {
   oriServiceCenter: any = null;
   newServiceCenter: any = null;
   updateServiceCenters: any[] = [];
-  selectedServiceCenters: null | any[] = null;
+  selectedServiceCenters: any[] = [];
 
-  constructor(private primengConfig: PrimeNGConfig) {
+  constructor(private primengConfig: PrimeNGConfig, private cdr: ChangeDetectorRef) {
     this.criteriag = {
       customerId: '620893196',
       taxId: '84149126',
@@ -259,15 +260,21 @@ export class CustomerMaintenanceSettingComponent {
     console.log('showFlag2', $event);
   }
 
-  addServiceCenter($event: any) {
-    console.log(this.updateServiceCenters);
+  addServiceCenter(event: any) {
+    if (this.oriServiceCenter && this.newServiceCenter && this.oriServiceCenter !== this.newServiceCenter) {
+      this.updateServiceCenters.push({
+        source: this.oriServiceCenter,
+        target: this.newServiceCenter
+      });
 
-    this.updateServiceCenters.push({
-      source: this.oriServiceCenter,
-      target: this.newServiceCenter,
-    });
+      this.onServiceCenterSelectionChange();
+      this.cdr.detectChanges();
+    }
   }
 
+  onServiceCenterSelectionChange() {
+    this.selectedServiceCenters = [...this.selectedServiceCenters];
+  }
   deleteSelecteServiceCenters() {
     if (!this.selectedServiceCenters) {
       return;
@@ -275,6 +282,7 @@ export class CustomerMaintenanceSettingComponent {
     this.updateServiceCenters = this.updateServiceCenters.filter(
       (val) => this.selectedServiceCenters && !this.selectedServiceCenters.includes(val)
     );
-    this.selectedServiceCenters = null;
+    this.selectedServiceCenters = [];
   }
+
 }
