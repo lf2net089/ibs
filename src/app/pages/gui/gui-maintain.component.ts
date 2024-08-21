@@ -10,7 +10,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { Table } from 'primeng/table';
-
+import { PanelModule } from 'primeng/panel';
 interface Bill {
   billNumber: string;
   shippingDate: string;
@@ -64,7 +64,8 @@ interface GUI {
     TableModule,
     ToastModule,
     CommonModule,
-    TagModule
+    TagModule,
+    PanelModule
   ],
   providers: [MessageService, CurrencyPipe],
 })

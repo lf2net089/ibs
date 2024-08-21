@@ -1,191 +1,199 @@
 <p-toast></p-toast>
-<p-table
-[value]="guiList"
-  dataKey="guiNumber"
-  scrollable="true"
-  scrollHeight="545px"
-  [tableStyle]="{ 'min-width': '60rem' }"
-  [expandedRowKeys]="expandedRows"
-  (onRowExpand)="onRowExpand($event)"
-  (onRowCollapse)="onRowCollapse($event)"
-  [paginator]="true"
-  [rows]="10"
-  [(selection)]="selectedRow"
-  (onRowSelect)="onRowSelect($event)"
-  (onRowUnselect)="onRowUnselect($event)"
-  class="full-height-table">
-  <ng-template pTemplate="caption">
-    <div class="flex align-items-center transparent-caption compact-caption"
-      style="display: flex; justify-content: space-between; width: 100%;">
-      <p-button label="Query Criteria" icon="pi pi-filter" text styleClass="p-button-sm p-button-text p-0"
-        (click)="toggleSidebar()"></p-button>
-      <div class="flex" style="gap: 10px">
-        <p-button label="Expand All" icon="pi pi-plus" text styleClass="p-button-sm p-button-text p-0"
-          (click)="expandAll()"></p-button>
-        <p-button label="Collapse All" icon="pi pi-minus" text styleClass="p-button-sm p-button-text p-0"
-          (click)="collapseAll()"></p-button>
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width: 5rem"></th>
-      <th pSortableColumn="guiNumber">
-        發票號碼
-        <p-sortIcon field="guiNumber" />
-      </th>
-      <th pSortableColumn="guiDate">
-        發票日期
-        <p-sortIcon field="guiDate" />
-      </th>
-      <th pSortableColumn="customerId">
-        客戶帳號
-        <p-sortIcon field="customerId" />
-      </th>
-      <th pSortableColumn="taxId">
-        統一編號
-        <p-sortIcon field="taxId" />
-      </th>
-      <th pSortableColumn="serviceCenterCode">
-        服務中心代碼
-        <p-sortIcon field="serviceCenterCode" />
-      </th>
-      <th pSortableColumn="salesAmount">
-        銷售額
-        <p-sortIcon field="salesAmount" />
-      </th>
-      <th pSortableColumn="taxAmount">
-        稅額
-        <p-sortIcon field="taxAmount" />
-      </th>
-      <th pSortableColumn="totalAmount">
-        總計金額
-        <p-sortIcon field="totalAmount" />
-      </th>
-      <th pSortableColumn="issueType">
-        開立類別
-        <p-sortIcon field="issueType" />
-      </th>
-      <th pSortableColumn="reportingStatus">
-        申報狀態
-        <p-sortIcon field="reportingStatus" />
-      </th>
-      <th pSortableColumn="taxCategory">
-        課稅別
-        <p-sortIcon field="taxCategory" />
-      </th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-gui let-expanded="expanded">
-    <tr>
-      <td>
-        <p-button type="button" pRipple [pRowToggler]="gui" [text]="true" [rounded]="true" [plain]="true"
-          *ngIf="gui.invoices && gui.invoices.length > 0"
-          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
-      </td>
-      <td>{{ gui.guiNumber }}</td>
-      <td>{{ gui.guiDate }}</td>
-      <td>{{ gui.customerId }}</td>
-      <td>{{ gui.taxId }}</td>
-      <td>{{ gui.serviceCenterCode }}</td>
-      <td>{{ gui.salesAmount | currency }}</td>
-      <td>{{ gui.taxAmount | currency }}</td>
-      <td>{{ gui.totalAmount | currency }}</td>
-      <td>{{ gui.issueType }}</td>
-      <td>
-        <p-tag [value]="gui.reportingStatus" [severity]="getReportingStatusSeverity(gui.reportingStatus)"></p-tag>
-      </td>
-      <td>{{ gui.taxCategory }}</td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="rowexpansion" let-gui>
-    <tr>
-      <td colspan="12">
-        <div class="p-3" *ngIf="gui.invoices && gui.invoices.length > 0">
-          <p-table [value]="gui.invoices" dataKey="invoiceNumber" [expandedRowKeys]="expandedRows">
-            <ng-template pTemplate="header">
-              <tr class="invoice-header">
-                <th style="width: 2rem"></th>
-                <th pSortableColumn="invoiceNumber">帳單號碼<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
-                <th pSortableColumn="invoiceDate">帳單日期<p-sortIcon field="invoiceDate"></p-sortIcon></th>
-                <th pSortableColumn="customerId">客戶帳號<p-sortIcon field="customerId"></p-sortIcon></th>
-                <th pSortableColumn="taxId">統一編號<p-sortIcon field="taxId"></p-sortIcon></th>
-                <th pSortableColumn="serviceCenterCode">服務中心代碼<p-sortIcon field="serviceCenterCode"></p-sortIcon></th>
-                <th pSortableColumn="salesAmount">銷售額<p-sortIcon field="salesAmount"></p-sortIcon></th>
-                <th pSortableColumn="taxAmount">稅額<p-sortIcon field="taxAmount"></p-sortIcon></th>
-                <th pSortableColumn="totalAmount">總計金額<p-sortIcon field="totalAmount"></p-sortIcon></th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-invoice let-expanded="expanded">
-              <tr class="invoice-cell">
-                <td>
-                  <p-button type="button" pRipple [pRowToggler]="invoice" [text]="true" [rounded]="true" [plain]="true"
-                    *ngIf="invoice.bills && invoice.bills.length > 0"
-                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
-                </td>
-                <td>{{ invoice.invoiceNumber }}</td>
-                <td>{{ invoice.invoiceDate }}</td>
-                <td>{{ invoice.customerId }}</td>
-                <td>{{ invoice.taxId }}</td>
-                <td>{{ invoice.serviceCenterCode }}</td>
-                <td>{{ invoice.salesAmount | currency }}</td>
-                <td>{{ invoice.taxAmount | currency }}</td>
-                <td>{{ invoice.totalAmount | currency }}</td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="rowexpansion" let-invoice>
-              <tr>
-                <td colspan="12">
-                  <div class="p-3" *ngIf="invoice.bills && invoice.bills.length > 0">
-                    <p-table [value]="invoice.bills" dataKey="billNumber" [(selection)]="selectedBill"
-                      [tableStyle]="{ 'min-width': '55rem' }" (onRowSelect)="onBillSelect($event)"
-                      (onRowUnselect)="onBillUnselect($event)">
-                      <ng-template pTemplate="header">
-                        <tr class="bill-header">
-                          <th style="width: 2rem"></th>
-                          <th pSortableColumn="billNumber">提單號碼<p-sortIcon field="billNumber"></p-sortIcon></th>
-                          <th pSortableColumn="shippingDate">運送日期<p-sortIcon field="shippingDate"></p-sortIcon></th>
-                          <th pSortableColumn="productCategory">產品類別<p-sortIcon field="productCategory"></p-sortIcon></th>
-                          <th pSortableColumn="productName">產品名稱<p-sortIcon field="productName"></p-sortIcon></th>
-                          <th pSortableColumn="origin">出貨地<p-sortIcon field="origin"></p-sortIcon></th>
-                          <th pSortableColumn="destination">目的地<p-sortIcon field="destination"></p-sortIcon></th>
-                          <th pSortableColumn="surcharge">附加費<p-sortIcon field="surcharge"></p-sortIcon></th>
-                          <th pSortableColumn="freight">運費<p-sortIcon field="freight"></p-sortIcon></th>
-                          <th pSortableColumn="discount">折扣<p-sortIcon field="discount"></p-sortIcon></th>
-                          <th pSortableColumn="netAmount">淨額<p-sortIcon field="netAmount"></p-sortIcon></th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-bill>
-                        <tr class="bill-cell">
-                          <td></td>
-                          <td>{{ bill.billNumber }}</td>
-                          <td>{{ bill.shippingDate }}</td>
-                          <td>{{ bill.productCategory }}</td>
-                          <td>{{ bill.productName }}</td>
-                          <td>{{ bill.origin }}</td>
-                          <td>{{ bill.destination }}</td>
-                          <td>{{ bill.surcharge | currency }}</td>
-                          <td>{{ bill.freight | currency }}</td>
-                          <td>{{ bill.discount | currency }}</td>
-                          <td>{{ bill.netAmount | currency }}</td>
-                        </tr>
-                      </ng-template>
-                    </p-table>
-                  </div>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+<div class="table-wrapper">
+  <div class="table-container">
+    <p-table [value]="guiList" dataKey="guiNumber" scrollable="true" scrollHeight="700px"
+      [tableStyle]="{ 'min-width': '60rem', 'max-height': '100%' }" [expandedRowKeys]="expandedRows"
+      (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)" [paginator]="true" [rows]="10"
+      [(selection)]="selectedRow" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+      class="full-height-table">
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center transparent-caption compact-caption"
+          style="display: flex; justify-content: space-between; width: 100%;">
+          <p-button label="Query Criteria" icon="pi pi-filter" text styleClass="p-button-sm p-button-text p-0"
+            (click)="toggleSidebar()"></p-button>
+          <div class="flex" style="gap: 10px">
+            <p-button label="Expand All" icon="pi pi-plus" text styleClass="p-button-sm p-button-text p-0"
+              (click)="expandAll()"></p-button>
+            <p-button label="Collapse All" icon="pi pi-minus" text styleClass="p-button-sm p-button-text p-0"
+              (click)="collapseAll()"></p-button>
+          </div>
         </div>
-      </td>
-    </tr>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 5rem"></th>
+          <th pSortableColumn="guiNumber">
+            發票號碼
+            <p-sortIcon field="guiNumber" />
+          </th>
+          <th pSortableColumn="guiDate">
+            發票日期
+            <p-sortIcon field="guiDate" />
+          </th>
+          <th pSortableColumn="customerId">
+            客戶帳號
+            <p-sortIcon field="customerId" />
+          </th>
+          <th pSortableColumn="taxId">
+            統一編號
+            <p-sortIcon field="taxId" />
+          </th>
+          <th pSortableColumn="serviceCenterCode">
+            服務中心代碼
+            <p-sortIcon field="serviceCenterCode" />
+          </th>
+          <th pSortableColumn="salesAmount">
+            銷售額
+            <p-sortIcon field="salesAmount" />
+          </th>
+          <th pSortableColumn="taxAmount">
+            稅額
+            <p-sortIcon field="taxAmount" />
+          </th>
+          <th pSortableColumn="totalAmount">
+            總計金額
+            <p-sortIcon field="totalAmount" />
+          </th>
+          <th pSortableColumn="issueType">
+            開立類別
+            <p-sortIcon field="issueType" />
+          </th>
+          <th pSortableColumn="reportingStatus">
+            申報狀態
+            <p-sortIcon field="reportingStatus" />
+          </th>
+          <th pSortableColumn="taxCategory">
+            課稅別
+            <p-sortIcon field="taxCategory" />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-gui let-expanded="expanded">
+        <tr>
+          <td>
+            <p-button type="button" pRipple [pRowToggler]="gui" [text]="true" [rounded]="true" [plain]="true"
+              *ngIf="gui.invoices && gui.invoices.length > 0"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
+          </td>
+          <td>{{ gui.guiNumber }}</td>
+          <td>{{ gui.guiDate }}</td>
+          <td>{{ gui.customerId }}</td>
+          <td>{{ gui.taxId }}</td>
+          <td>{{ gui.serviceCenterCode }}</td>
+          <td>{{ gui.salesAmount | currency }}</td>
+          <td>{{ gui.taxAmount | currency }}</td>
+          <td>{{ gui.totalAmount | currency }}</td>
+          <td>{{ gui.issueType }}</td>
+          <td>
+            <p-tag [value]="gui.reportingStatus" [severity]="getReportingStatusSeverity(gui.reportingStatus)"></p-tag>
+          </td>
+          <td>{{ gui.taxCategory }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-gui>
+        <tr>
+          <td colspan="12">
+            <div class="p-3" *ngIf="gui.invoices && gui.invoices.length > 0">
+              <p-table [value]="gui.invoices" dataKey="invoiceNumber" [expandedRowKeys]="expandedRows">
+                <ng-template pTemplate="header">
+        <tr class="invoice-header">
+          <th style="width: 2rem"></th>
+          <th pSortableColumn="invoiceNumber">帳單號碼<p-sortIcon field="invoiceNumber"></p-sortIcon>
+          </th>
+          <th pSortableColumn="invoiceDate">帳單日期<p-sortIcon field="invoiceDate"></p-sortIcon>
+          </th>
+          <th pSortableColumn="customerId">客戶帳號<p-sortIcon field="customerId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="taxId">統一編號<p-sortIcon field="taxId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="serviceCenterCode">服務中心代碼<p-sortIcon field="serviceCenterCode"></p-sortIcon>
+          </th>
+          <th pSortableColumn="salesAmount">銷售額<p-sortIcon field="salesAmount"></p-sortIcon>
+          </th>
+          <th pSortableColumn="taxAmount">稅額<p-sortIcon field="taxAmount"></p-sortIcon>
+          </th>
+          <th pSortableColumn="totalAmount">總計金額<p-sortIcon field="totalAmount"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-invoice let-expanded="expanded">
+        <tr class="invoice-cell">
+          <td>
+            <p-button type="button" pRipple [pRowToggler]="invoice" [text]="true" [rounded]="true" [plain]="true"
+              *ngIf="invoice.bills && invoice.bills.length > 0"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
+          </td>
+          <td>{{ invoice.invoiceNumber }}</td>
+          <td>{{ invoice.invoiceDate }}</td>
+          <td>{{ invoice.customerId }}</td>
+          <td>{{ invoice.taxId }}</td>
+          <td>{{ invoice.serviceCenterCode }}</td>
+          <td>{{ invoice.salesAmount | currency }}</td>
+          <td>{{ invoice.taxAmount | currency }}</td>
+          <td>{{ invoice.totalAmount | currency }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-invoice>
+        <tr>
+          <td colspan="12">
+            <div class="p-3" *ngIf="invoice.bills && invoice.bills.length > 0">
+              <p-table [value]="invoice.bills" dataKey="billNumber" [(selection)]="selectedBill"
+                [tableStyle]="{ 'min-width': '55rem' }" (onRowSelect)="onBillSelect($event)"
+                (onRowUnselect)="onBillUnselect($event)">
+                <ng-template pTemplate="header">
+        <tr class="bill-header">
+          <th style="width: 2rem"></th>
+          <th pSortableColumn="billNumber">提單號碼<p-sortIcon field="billNumber"></p-sortIcon>
+          </th>
+          <th pSortableColumn="shippingDate">運送日期<p-sortIcon field="shippingDate"></p-sortIcon>
+          </th>
+          <th pSortableColumn="productCategory">產品類別<p-sortIcon field="productCategory"></p-sortIcon>
+          </th>
+          <th pSortableColumn="productName">產品名稱<p-sortIcon field="productName"></p-sortIcon>
+          </th>
+          <th pSortableColumn="origin">出貨地<p-sortIcon field="origin"></p-sortIcon>
+          </th>
+          <th pSortableColumn="destination">目的地<p-sortIcon field="destination"></p-sortIcon>
+          </th>
+          <th pSortableColumn="surcharge">附加費<p-sortIcon field="surcharge"></p-sortIcon>
+          </th>
+          <th pSortableColumn="freight">運費<p-sortIcon field="freight"></p-sortIcon>
+          </th>
+          <th pSortableColumn="discount">折扣<p-sortIcon field="discount"></p-sortIcon>
+          </th>
+          <th pSortableColumn="netAmount">淨額<p-sortIcon field="netAmount"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bill>
+        <tr class="bill-cell">
+          <td></td>
+          <td>{{ bill.billNumber }}</td>
+          <td>{{ bill.shippingDate }}</td>
+          <td>{{ bill.productCategory }}</td>
+          <td>{{ bill.productName }}</td>
+          <td>{{ bill.origin }}</td>
+          <td>{{ bill.destination }}</td>
+          <td>{{ bill.surcharge | currency }}</td>
+          <td>{{ bill.freight | currency }}</td>
+          <td>{{ bill.discount | currency }}</td>
+          <td>{{ bill.netAmount | currency }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  </td>
+  </tr>
   </ng-template>
-
-
-
+  </p-table>
+</div>
+</td>
+</tr>
+</ng-template>
 </p-table>
-
+</div>
+</div>
 <p-sidebar [(visible)]="sidebarVisible" [baseZIndex]="10000" position="right" [modal]="false"
   [style]="{ width: '290px' }">
   <h2>Query Criteria</h2>

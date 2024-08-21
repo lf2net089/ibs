@@ -178,3 +178,24 @@ table p-table td.invoice-cell {
   color: #000;
   background-color: #ffe6e6 !important;
 }
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 150px);
+  padding: 10px;
+}
+
+.table-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+p-table {
+  flex: 1;
+  max-height: 98%;
+  overflow-y: auto;
+}

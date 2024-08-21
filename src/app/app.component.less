@@ -8,59 +8,63 @@
   height: 100vh;
   background-color: @dhl-yellow;
   overflow: hidden;
-  /* Disable scrollbars */
 }
 
+/* Adjust the height of the header and footer */
 .app-header,
 .app-sub-header,
 .app-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 66px;
+  height: 50px;
+  /* Header and footer height */
   width: 100vw;
-  /* Full width */
   z-index: 1000;
   background: @dhl-yellow  !important;
   margin: 0;
   padding: 0;
 }
 
+/* Adjust the height of the menu bar inside the header */
 .app-header .menubar,
 .app-sub-header ul[nz-menu],
 .app-footer {
   display: flex;
+  align-items: center;
+  height: 50px;
+  /* Ensure the menu aligns perfectly with the header */
   gap: 10px;
   background: @dhl-yellow  !important;
 }
 
+/* Ensure menu items are aligned and height matches the header */
 .app-header ul[nz-menu].main-menu li[nz-menu-item] {
   font-weight: normal;
-  /* Set font weight to normal */
   font-size: 1rem;
-  /* Default font size */
   color: @dhl-white  !important;
-  /* Set text color to white */
+  line-height: 50px;
+  /* Align text vertically */
 }
 
 .app-header ul[nz-menu].main-menu li[nz-menu-item]:hover {
   background-color: transparent !important;
   color: @dhl-black  !important;
-  /* Keep text color white */
 }
 
+/* Styles for submenu and its items */
 .app-sub-header ul[nz-menu] li[nz-menu-item],
 .app-sub-header ul[nz-menu] li[nz-submenu]>div[nz-submenu-title]>span,
 .app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item],
 .app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-submenu]>div[nz-submenu-title]>span {
   font-weight: bold;
-  /* Set font weight to bold */
   font-size: 1.2rem;
-  /* Increase font size */
   color: @dhl-black  !important;
-  /* Set text color to black */
+  line-height: 50px;
+  /* Align text vertically */
 }
 
+/* Ensure consistent hover and selected styles */
 .app-sub-header ul[nz-menu] li[nz-menu-item]:hover,
 .app-sub-header ul[nz-menu] li[nz-submenu]>div[nz-submenu-title]:hover,
 .app-sub-header ul[nz-menu] li[nz-submenu] ul li[nz-menu-item]:hover,
@@ -72,20 +76,16 @@
 .app-sub-header ul[nz-menu] li[nz-submenu].ant-menu-submenu-selected>div[nz-submenu-title],
 .app-sub-header ul[nz-menu] li[nz-submenu].ant-menu-submenu-selected>div[nz-submenu-title]>span {
   background-color: @dhl-orange  !important;
-  /* Deep orange color on hover and when selected */
   color: @dhl-black  !important;
-  /* Keep text color black */
 }
 
 .app-sub-header ul[nz-menu] {
   display: flex;
-  /* 使用 flexbox 來排列子項目 */
   flex-wrap: wrap;
-  /* 允許子項目換行 */
   gap: 0;
-  /* 設定間隙為0 */
 }
 
+/* Adjust submenu items for proper alignment and fixed width */
 .app-sub-header ul[nz-menu] li[nz-menu-item],
 .app-sub-header ul[nz-menu] li[nz-submenu]>div[nz-submenu-title] {
   display: flex;
@@ -93,16 +93,18 @@
   justify-content: center;
   text-align: center;
   width: 95px;
-  /* 設定固定寬度 */
   box-sizing: border-box;
-  /* 確保 padding 和 border 不會影響寬度 */
   margin: 0;
+  height: 50px;
+  /* Ensure the submenu items match header height */
 }
 
+/* Set background color for header */
 nz-header ul[nz-menu] {
   background-color: @dhl-yellow  !important;
 }
 
+/* Ensure content fills the remaining height */
 nz-content {
   display: flex;
   flex-direction: column;
@@ -111,13 +113,8 @@ nz-content {
   background-color: @dhl-background-color;
 }
 
-.inner-content {
-  padding: 24px;
-  background: @dhl-background-color;
-  height: 100%;
-  margin-top: -37px;
-}
 
+/* Adjust breadcrumb container */
 .breadcrumb-container,
 .breadcrumb-container-single {
   padding: 0;
@@ -126,6 +123,7 @@ nz-content {
   height: 50px;
 }
 
+/* Style for breadcrumbs */
 .p-breadcrumb {
   font-size: 1.2rem !important;
   font-weight: bold !important;
@@ -147,6 +145,7 @@ nz-content {
   color: @dhl-black  !important;
 }
 
+/* Footer styling */
 .app-footer {
   height: 30px;
   line-height: 30px;
@@ -157,14 +156,16 @@ nz-content {
   z-index: 1000;
 }
 
+/* Ensure the logo is properly aligned in the header */
 .logo {
   display: flex;
   align-items: center;
   justify-content: left;
-  height: 64px;
+  height: 50px;
   background: @dhl-yellow;
 }
 
+/* Sidebar logo styling */
 .sidebar-logo img {
   height: 32px;
   width: 32px;
@@ -180,8 +181,9 @@ nz-content {
   vertical-align: middle;
 }
 
+/* Header trigger styling */
 .header-trigger {
-  height: 64px;
+  height: 50px;
   padding: 20px 24px;
   font-size: 20px;
   cursor: pointer;
@@ -192,12 +194,46 @@ nz-content {
   color: @dhl-black;
 }
 
+/* Menu item styling */
 .main-menu {
   li[nz-menu-item] {
+
     &:hover,
     &:focus,
     &:active {
       background-color: transparent !important;
     }
   }
+}
+
+.inner-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+  background: @dhl-background-color;
+  margin-top: -37px;
+  height: 100%;
+  padding: 24px;
+}
+
+
+.p-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+p-table {
+  flex-grow: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+p-toast {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
 }
