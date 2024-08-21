@@ -103,9 +103,7 @@
     <tr>
       <td colspan="12">
         <div class="p-3" *ngIf="gui.invoices && gui.invoices.length > 0">
-          <p-table [value]="gui.invoices" dataKey="invoiceNumber" [(selection)]="selectedInvoice"
-            [tableStyle]="{ 'min-width': '55rem' }" (onRowSelect)="onInvoiceSelect($event)"
-            (onRowUnselect)="onInvoiceUnselect($event)">
+          <p-table [value]="gui.invoices" dataKey="invoiceNumber" [expandedRowKeys]="expandedRows">
             <ng-template pTemplate="header">
               <tr class="invoice-header">
                 <th style="width: 2rem"></th>

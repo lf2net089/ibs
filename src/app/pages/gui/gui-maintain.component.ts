@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CurrencyPipe, CommonModule } from '@angular/common';
 import { SidebarModule } from 'primeng/sidebar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -9,6 +9,46 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import { Table } from 'primeng/table';
+
+interface Bill {
+  billNumber: string;
+  shippingDate: string;
+  productCategory: string;
+  productName: string;
+  origin: string;
+  destination: string;
+  surcharge: number;
+  freight: number;
+  discount: number;
+  netAmount: number;
+}
+interface Invoice {
+  invoiceNumber: string;
+  invoiceDate: string;
+  customerId: string;
+  taxId: string;
+  serviceCenterCode: string;
+  salesAmount: number;
+  taxAmount: number;
+  totalAmount: number;
+  bills: Bill[];
+}
+interface GUI {
+  guiNumber: string;
+  guiDate: string;
+  customerId: string;
+  taxId: string;
+  serviceCenterCode: string;
+  salesAmount: number;
+  taxAmount: number;
+  totalAmount: number;
+  issueType: string;
+  reportingStatus: string;
+  taxCategory: string;
+  invoices: Invoice[];
+}
+
 
 @Component({
   selector: 'app-gui-maintain',
@@ -28,7 +68,9 @@ import { TagModule } from 'primeng/tag';
   ],
   providers: [MessageService, CurrencyPipe],
 })
-export class GUIMaintainComponent  {
+
+export class GUIMaintainComponent {
+  @ViewChild('dataTable', { static: false }) dataTable?: Table;
   sidebarVisible: boolean = false;
   selectedCustomer: any;
   selectedServiceCenter: any;
@@ -40,15 +82,17 @@ export class GUIMaintainComponent  {
   filteredServiceCenters: any[] = [];
   filteredSources: any[] = [];
   filteredInvoiceNumbers: any[] = [];
-  guiList: any[] = [];
+  guiList: GUI[] = [];
   expandedRows: any = {};
   selectedGUI: any;
   expandedSubRows: { [key: string]: boolean } = {};
   selectedRow: any;
-  selectedInvoice: any;
-  selectedBill: any;
+  selectedInvoice: Invoice | null = null;
+  selectedBill: Bill | null = null;
   issueType: any;
-  constructor(private messageService: MessageService) { }
+  invoice: Invoice | null = null;
+
+  constructor(private messageService: MessageService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.guiList = [
@@ -259,29 +303,26 @@ export class GUIMaintainComponent  {
 
   expandAll() {
     this.expandedRows = {};
-    this.expandedSubRows = {};
 
     this.guiList.forEach(gui => {
       this.expandedRows[gui.guiNumber] = true;
 
-      gui.invoices?.forEach((invoice: any) => {
-        const invoiceKey = 'invoice-' + gui.guiNumber;
-        this.expandedSubRows[invoiceKey] = true;
-      });
+      gui.invoices.forEach(invoice => {
+        this.expandedRows[invoice.invoiceNumber] = true;
 
-      gui.bills?.forEach((bill: any) => {
-        const billKey = 'bill-' + gui.guiNumber;
-        this.expandedSubRows[billKey] = true;
+        invoice.bills.forEach(bill => {
+          this.expandedRows[bill.billNumber] = true;
+        });
       });
     });
-  }
 
+    this.cd.detectChanges();
+  }
 
   collapseAll() {
     this.expandedRows = {};
-    this.expandedSubRows = {};
+    this.cd.detectChanges();
   }
-
 
 
   toggleRow(rowKey: string) {
