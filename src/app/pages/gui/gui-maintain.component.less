@@ -82,7 +82,7 @@ button.p-button-secondary {
 
 .invoice-header {
   @extend .header;
-  background-color: #d1d9e1;
+  background-color: #e8eef4;
 }
 
 .invoice-cell {
@@ -92,7 +92,7 @@ button.p-button-secondary {
 
 .bill-header {
   @extend .header;
-  background-color: #ffe6e6;
+  background-color: #fff2f2;
 }
 
 .bill-cell {
@@ -108,6 +108,22 @@ button.p-button-secondary {
 .bill-header p-button {
   background-color: #ffe6e6;
   border: none;
+}
+/* Increase specificity */
+table p-table th.bill-header {
+  background-color: #ffe6e6 !important;
+}
+
+table p-table th.invoice-header {
+  background-color: #e8eef4 !important;
+}
+
+table p-table td.bill-cell {
+  background-color: #ffe6e6 !important;
+}
+
+table p-table td.invoice-cell {
+  background-color: #e8eef4 !important;
 }
 
 .p-table .p-datatable-tbody > tr.p-highlight {
@@ -145,4 +161,20 @@ button.p-button-secondary {
 .full-height-table .p-datatable-scrollable-header,
 .full-height-table .p-datatable-scrollable-footer {
   flex-shrink: 0;
+}
+
+
+.invoice-header {
+  background-color: #d1d9e1;
+  color: #000;
+}
+
+.invoice-header th {
+  background-color: #d1d9e1;
+
+}
+
+.bill-header th {
+  color: #000;
+  background-color: #ffe6e6 !important;
 }

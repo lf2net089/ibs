@@ -61,9 +61,9 @@ export class GUIMaintainComponent  {
         salesAmount: 1000,
         taxAmount: 50,
         totalAmount: 1050,
-        issueType: '自動開立', // A.自動開立
-        reportingStatus: '已月結', // 已月結
-        taxCategory: '應稅', // 應稅
+        issueType: '自動開立',
+        reportingStatus: '已月結',
+        taxCategory: '應稅',
         invoices: [
           {
             invoiceNumber: 'INV001',
@@ -74,6 +74,32 @@ export class GUIMaintainComponent  {
             salesAmount: 500,
             taxAmount: 25,
             totalAmount: 525,
+            bills: [
+              {
+                billNumber: 'BL001',
+                shippingDate: '2024-08-03',
+                productCategory: 'Electronics',
+                productName: 'Laptop',
+                origin: 'Taipei',
+                destination: 'New York',
+                surcharge: 50,
+                freight: 100,
+                discount: 10,
+                netAmount: 140,
+              },
+              {
+                billNumber: 'BL002',
+                shippingDate: '2024-08-03',
+                productCategory: 'Electronics',
+                productName: 'Smartphone',
+                origin: 'Taipei',
+                destination: 'Los Angeles',
+                surcharge: 30,
+                freight: 80,
+                discount: 5,
+                netAmount: 105,
+              }
+            ]
           },
           {
             invoiceNumber: 'INV002',
@@ -84,34 +110,22 @@ export class GUIMaintainComponent  {
             salesAmount: 500,
             taxAmount: 25,
             totalAmount: 525,
-          },
-        ],
-        bills: [
-          {
-            billNumber: 'BL001',
-            shippingDate: '2024-08-03',
-            productCategory: 'Electronics',
-            productName: 'Laptop',
-            origin: 'Taipei',
-            destination: 'New York',
-            surcharge: 50,
-            freight: 100,
-            discount: 10,
-            netAmount: 140,
-          },
-          {
-            billNumber: 'BL002',
-            shippingDate: '2024-08-03',
-            productCategory: 'Electronics',
-            productName: 'Smartphone',
-            origin: 'Taipei',
-            destination: 'Los Angeles',
-            surcharge: 30,
-            freight: 80,
-            discount: 5,
-            netAmount: 105,
-          },
-        ],
+            bills: [
+              {
+                billNumber: 'BL003',
+                shippingDate: '2024-08-03',
+                productCategory: 'Furniture',
+                productName: 'Table',
+                origin: 'Kaohsiung',
+                destination: 'San Francisco',
+                surcharge: 70,
+                freight: 150,
+                discount: 15,
+                netAmount: 205,
+              }
+            ]
+          }
+        ]
       },
       {
         guiNumber: 'CD87654321',
@@ -122,24 +136,35 @@ export class GUIMaintainComponent  {
         salesAmount: 2000,
         taxAmount: 100,
         totalAmount: 2100,
-        issueType: '手動開立', // M.手動開立
-        reportingStatus: '凍結中', // 凍結中
-        taxCategory: '零稅', // 零稅
-        invoices: [],
-        bills: [
+        issueType: '手動開立',
+        reportingStatus: '凍結中',
+        taxCategory: '零稅',
+        invoices: [
           {
-            billNumber: 'BL003',
-            shippingDate: '2024-08-04',
-            productCategory: 'Furniture',
-            productName: 'Table',
-            origin: 'Kaohsiung',
-            destination: 'San Francisco',
-            surcharge: 70,
-            freight: 150,
-            discount: 15,
-            netAmount: 205,
-          },
-        ],
+            invoiceNumber: 'INV003',
+            invoiceDate: '2024-08-02',
+            customerId: 'CUST002',
+            taxId: '87654321',
+            serviceCenterCode: 'DEF',
+            salesAmount: 1000,
+            taxAmount: 50,
+            totalAmount: 1050,
+            bills: [
+              {
+                billNumber: 'BL004',
+                shippingDate: '2024-08-04',
+                productCategory: 'Appliances',
+                productName: 'Washing Machine',
+                origin: 'Tainan',
+                destination: 'Chicago',
+                surcharge: 100,
+                freight: 200,
+                discount: 20,
+                netAmount: 280,
+              }
+            ]
+          }
+        ]
       },
       {
         guiNumber: 'EF23456789',
@@ -150,12 +175,12 @@ export class GUIMaintainComponent  {
         salesAmount: 3000,
         taxAmount: 150,
         totalAmount: 3150,
-        issueType: 'POS開立', // P.POS開立
-        reportingStatus: '未月結', // 未月結
-        taxCategory: '應稅', // 應稅
+        issueType: 'POS開立',
+        reportingStatus: '未月結',
+        taxCategory: '應稅',
         invoices: [
           {
-            invoiceNumber: 'INV003',
+            invoiceNumber: 'INV004',
             invoiceDate: '2024-08-03',
             customerId: 'CUST003',
             taxId: '23456789',
@@ -163,22 +188,22 @@ export class GUIMaintainComponent  {
             salesAmount: 1500,
             taxAmount: 75,
             totalAmount: 1575,
-          },
-        ],
-        bills: [
-          {
-            billNumber: 'BL004',
-            shippingDate: '2024-08-05',
-            productCategory: 'Appliances',
-            productName: 'Washing Machine',
-            origin: 'Tainan',
-            destination: 'Chicago',
-            surcharge: 100,
-            freight: 200,
-            discount: 20,
-            netAmount: 280,
-          },
-        ],
+            bills: [
+              {
+                billNumber: 'BL005',
+                shippingDate: '2024-08-05',
+                productCategory: 'Appliances',
+                productName: 'Microwave',
+                origin: 'Tainan',
+                destination: 'Boston',
+                surcharge: 50,
+                freight: 120,
+                discount: 15,
+                netAmount: 155,
+              }
+            ]
+          }
+        ]
       },
       {
         guiNumber: 'GH34567890',
@@ -189,12 +214,12 @@ export class GUIMaintainComponent  {
         salesAmount: 4000,
         taxAmount: 200,
         totalAmount: 4200,
-        issueType: '綠界開立', // G.綠界開立
-        reportingStatus: '已申報關帳', // 已申報關帳
-        taxCategory: '零稅', // 零稅
+        issueType: '綠界開立',
+        reportingStatus: '已申報關帳',
+        taxCategory: '零稅',
         invoices: [
           {
-            invoiceNumber: 'INV004',
+            invoiceNumber: 'INV005',
             invoiceDate: '2024-08-04',
             customerId: 'CUST004',
             taxId: '34567890',
@@ -202,23 +227,23 @@ export class GUIMaintainComponent  {
             salesAmount: 2000,
             taxAmount: 100,
             totalAmount: 2100,
-          },
-        ],
-        bills: [
-          {
-            billNumber: 'BL005',
-            shippingDate: '2024-08-06',
-            productCategory: 'Books',
-            productName: 'Novel',
-            origin: 'Taichung',
-            destination: 'London',
-            surcharge: 20,
-            freight: 40,
-            discount: 5,
-            netAmount: 55,
-          },
-        ],
-      },
+            bills: [
+              {
+                billNumber: 'BL006',
+                shippingDate: '2024-08-06',
+                productCategory: 'Books',
+                productName: 'Novel',
+                origin: 'Taichung',
+                destination: 'London',
+                surcharge: 20,
+                freight: 40,
+                discount: 5,
+                netAmount: 55,
+              }
+            ]
+          }
+        ]
+      }
     ];
   }
 
