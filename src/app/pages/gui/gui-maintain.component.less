@@ -200,3 +200,24 @@ p-table {
   max-height: 98%;
   overflow-y: auto;
 }
+
+.p-table th {
+  padding: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.p-table th pSortableColumn {
+  max-width: 10rem;
+}
+
+.p-menu-overlay {
+  position: absolute !important;
+  z-index: 10000 !important; /* Ensure menu is on top */
+}
+
+.p-button {
+  position: relative;
+  z-index: 9999; /* Ensure the button is on top */
+}

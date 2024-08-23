@@ -275,6 +275,7 @@ export class CustomerMaintenanceSettingComponent {
   onServiceCenterSelectionChange() {
     this.selectedServiceCenters = [...this.selectedServiceCenters];
   }
+
   deleteSelecteServiceCenters() {
     if (!this.selectedServiceCenters) {
       return;

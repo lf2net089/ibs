@@ -11,6 +11,9 @@ import { MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { Table } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
+import { MenuModule } from 'primeng/menu';
+import { ContextMenuModule } from 'primeng/contextmenu';
+
 interface Bill {
   billNumber: string;
   shippingDate: string;
@@ -47,6 +50,7 @@ interface GUI {
   reportingStatus: string;
   taxCategory: string;
   invoices: Invoice[];
+  guiStatus: string;
 }
 
 
@@ -65,13 +69,16 @@ interface GUI {
     ToastModule,
     CommonModule,
     TagModule,
-    PanelModule
+    PanelModule,
+    MenuModule,
+    ContextMenuModule
   ],
   providers: [MessageService, CurrencyPipe],
 })
 
 export class GUIMaintainComponent {
   @ViewChild('dataTable', { static: false }) dataTable?: Table;
+  @ViewChild('cm') cm!: any;
   sidebarVisible: boolean = false;
   selectedCustomer: any;
   selectedServiceCenter: any;
@@ -95,10 +102,19 @@ export class GUIMaintainComponent {
   selectedRows: any[] = [];
   selectedBills: { invoiceNumber: string, billNumber: string }[] = [];
   invoiceSelections: { [invoiceNumber: string]: any[] } = {};
+  menuItems: any[] = [];
 
   constructor(private messageService: MessageService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.menuItems = [
+      { label: '發票作廢', icon: 'pi pi-times', command: () => this.cancelInvoice() },
+      { label: '允許改變發票', icon: 'pi pi-pencil', command: () => this.allowInvoiceChange() },
+      { label: '建立折讓單', icon: 'pi pi-copy', command: () => this.createCreditNote() },
+      { label: '發票列印', icon: 'pi pi-print', command: () => this.printInvoice() },
+      { label: '專案退稅', icon: 'pi pi-money-bill', command: () => this.projectTaxRefund() },
+      { label: '詳細內容', icon: 'pi pi-info', command: () => this.viewDetails() }
+    ];
     this.guiList = [
       {
         guiNumber: 'AB12345678',
@@ -112,6 +128,7 @@ export class GUIMaintainComponent {
         issueType: '自動開立',
         reportingStatus: '已月結',
         taxCategory: '應稅',
+        guiStatus: '開立',
         invoices: [
           {
             invoiceNumber: 'INV001',
@@ -187,6 +204,7 @@ export class GUIMaintainComponent {
         issueType: '手動開立',
         reportingStatus: '凍結中',
         taxCategory: '零稅',
+        guiStatus: '專案退稅',
         invoices: [
           {
             invoiceNumber: 'INV003',
@@ -226,6 +244,7 @@ export class GUIMaintainComponent {
         issueType: 'POS開立',
         reportingStatus: '未月結',
         taxCategory: '應稅',
+        guiStatus: '折讓',
         invoices: [
           {
             invoiceNumber: 'INV004',
@@ -265,6 +284,7 @@ export class GUIMaintainComponent {
         issueType: '綠界開立',
         reportingStatus: '已申報關帳',
         taxCategory: '零稅',
+        guiStatus: '開立',
         invoices: [
           {
             invoiceNumber: 'INV005',
@@ -293,8 +313,69 @@ export class GUIMaintainComponent {
         ]
       }
     ];
+
   }
 
+  showContextMenu(event: MouseEvent, contextMenu: any) {
+    event.preventDefault();
+    contextMenu.show(event);
+
+    const closeContextMenu = () => {
+      contextMenu.hide();
+      document.removeEventListener('keydown', escKeyListener);
+      document.removeEventListener('wheel', wheelListener);
+    };
+
+    const escKeyListener = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeContextMenu();
+      }
+    };
+
+    const wheelListener = () => {
+      closeContextMenu();
+    };
+
+    document.addEventListener('keydown', escKeyListener);
+    document.addEventListener('wheel', wheelListener);
+
+    setTimeout(() => {
+      const contextMenuElement = document.querySelector('.p-contextmenu') as HTMLElement;
+      if (contextMenuElement) {
+        const menuHeight = contextMenuElement.offsetHeight;
+        const windowHeight = window.innerHeight;
+        let posY = event.pageY + 30;
+
+        if (posY + menuHeight > windowHeight) {
+          posY = event.pageY - menuHeight - 10;
+        }
+
+        contextMenuElement.style.left = `${event.pageX - 230}px`;
+        contextMenuElement.style.top = `${posY}px`;
+      }
+    }, 0);
+  }
+
+
+
+
+  cancelInvoice() {
+  }
+
+  allowInvoiceChange() {
+  }
+
+  createCreditNote() {
+  }
+
+  printInvoice() {
+  }
+
+  projectTaxRefund() {
+  }
+
+  viewDetails() {
+  }
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
   }
@@ -455,8 +536,14 @@ export class GUIMaintainComponent {
       (bill) => bill.billNumber !== event.data.billNumber
     );
   }
+
   get uniqueBillKey() {
     return (bill: any) => `${bill.invoiceNumber}-${bill.billNumber}`;
   }
 
+
+  showMenu(event: MouseEvent) {
+    this.cm.show(event);
+    event.preventDefault();
+  }
 }
