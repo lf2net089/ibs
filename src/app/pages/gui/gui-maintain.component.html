@@ -1,4 +1,3 @@
-<p-contextMenu #cm [model]="menuItems" appendTo="body"></p-contextMenu>
 <div class="flex align-items-center transparent-caption compact-caption"
   style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px;">
   <p-button label="Query Criteria" icon="pi pi-filter" text styleClass="p-button-sm p-button-text p-0"
@@ -17,12 +16,12 @@
       [tableStyle]="{ 'min-width': '6rem', 'max-height': '100%' }" [expandedRowKeys]="expandedRows"
       (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)" [paginator]="true" [rows]="10"
       [(selection)]="selectedRows" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
-      class="full-height-table" [metaKeySelection]="false">
+      [rowHover]="true" class="full-height-table" [metaKeySelection]="false" (mouseover)="onTableMouseOver($event)">
       <ng-template pTemplate="header">
         <tr>
           <th></th>
           <th style="width: 0.5rem">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            <p-tableHeaderCheckbox (click)="onHeaderCheckboxToggle()"></p-tableHeaderCheckbox>
           </th>
           <th>
             發票號碼
@@ -89,6 +88,7 @@
           <td>{{ gui.guiStatus }}</td>
           <td>
             <p-button icon="pi pi-ellipsis-v" (click)="showContextMenu($event, cm)"></p-button>
+            <p-contextMenu #cm [model]="menuItems" appendTo="body"></p-contextMenu>
           </td>
         </tr>
       </ng-template>
@@ -99,24 +99,18 @@
               <p-table [value]="gui.invoices" dataKey="invoiceNumber" [expandedRowKeys]="expandedRows">
                 <ng-template pTemplate="header">
         <tr class="invoice-header">
-          <th pSortableColumn="invoiceNumber"></th>
-          <th pSortableColumn="invoiceNumber"></th>
-          <th pSortableColumn="invoiceNumber">帳單號碼<p-sortIcon field="invoiceNumber"></p-sortIcon>
-          </th>
-          <th pSortableColumn="invoiceDate">帳單日期<p-sortIcon field="invoiceDate"></p-sortIcon>
-          </th>
-          <th pSortableColumn="customerId">客戶帳號<p-sortIcon field="customerId"></p-sortIcon>
-          </th>
-          <th pSortableColumn="taxId">統一編號<p-sortIcon field="taxId"></p-sortIcon>
-          </th>
-          <th pSortableColumn="serviceCenterCode">服務中心代碼<p-sortIcon field="serviceCenterCode"></p-sortIcon>
-          </th>
-          <th pSortableColumn="salesAmount">銷售額<p-sortIcon field="salesAmount"></p-sortIcon>
-          </th>
-          <th pSortableColumn="taxAmount">稅額<p-sortIcon field="taxAmount"></p-sortIcon>
-          </th>
-          <th pSortableColumn="totalAmount">總計金額<p-sortIcon field="totalAmount"></p-sortIcon>
-          </th>
+          <th></th>
+          <th></th>
+          <th>帳單號碼</th>
+          <th>帳單日期</th>
+          <th>客戶帳號</th>
+          <th>統一編號</th>
+          <th>帳單類型</th>
+          <th>服務中心代碼</th>
+          <th>銷售額</th>
+          <th>稅額</th>
+          <th>總計金額</th>
+          <th>動作</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-invoice let-expanded="expanded">
@@ -131,10 +125,15 @@
           <td>{{ invoice.invoiceDate }}</td>
           <td>{{ invoice.customerId }}</td>
           <td>{{ invoice.taxId }}</td>
+          <td>{{ invoice.invoiceType }}</td>
           <td>{{ invoice.serviceCenterCode }}</td>
           <td>{{ invoice.salesAmount | currency }}</td>
           <td>{{ invoice.taxAmount | currency }}</td>
           <td>{{ invoice.totalAmount | currency }}</td>
+          <td>
+            <p-button icon="pi pi-ellipsis-v" (click)="showContextMenu($event, cm)"></p-button>
+            <p-contextMenu #cm [model]="menuItemsWithInvoice" appendTo="body"></p-contextMenu>
+          </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-invoice>
@@ -147,30 +146,20 @@
                 (onRowUnselect)="onBillUnselect($event, invoice.invoiceNumber)">
                 <ng-template pTemplate="header">
         <tr class="bill-header">
-          <th pSortableColumn="billNumber"></th>
-          <th pSortableColumn="billNumber"></th>
-          <th pSortableColumn="billNumber"></th>
-          <th pSortableColumn="billNumber"></th>
-          <th pSortableColumn="billNumber">提單號碼<p-sortIcon field="billNumber"></p-sortIcon>
-          </th>
-          <th pSortableColumn="shippingDate">運送日期<p-sortIcon field="shippingDate"></p-sortIcon>
-          </th>
-          <th pSortableColumn="productCategory">產品類別<p-sortIcon field="productCategory"></p-sortIcon>
-          </th>
-          <th pSortableColumn="productName">產品名稱<p-sortIcon field="productName"></p-sortIcon>
-          </th>
-          <th pSortableColumn="origin">出貨地<p-sortIcon field="origin"></p-sortIcon>
-          </th>
-          <th pSortableColumn="destination">目的地<p-sortIcon field="destination"></p-sortIcon>
-          </th>
-          <th pSortableColumn="surcharge">附加費<p-sortIcon field="surcharge"></p-sortIcon>
-          </th>
-          <th pSortableColumn="freight">運費<p-sortIcon field="freight"></p-sortIcon>
-          </th>
-          <th pSortableColumn="discount">折扣<p-sortIcon field="discount"></p-sortIcon>
-          </th>
-          <th pSortableColumn="netAmount">淨額<p-sortIcon field="netAmount"></p-sortIcon>
-          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>提單號碼</th>
+          <th>運送日期</th>
+          <th>產品類別</th>
+          <th>產品名稱</th>
+          <th>出貨地</th>
+          <th>目的地</th>
+          <th>附加費</th>
+          <th>運費</th>
+          <th>折扣</th>
+          <th>淨額</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-bill>

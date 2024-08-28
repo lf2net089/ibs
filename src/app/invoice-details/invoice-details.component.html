@@ -1,0 +1,52 @@
+<div style="display: flex; align-items: flex-start;">
+  <table style="flex: 2; margin-right: 20px;">
+    <tr>
+      <th>發票號碼</th>
+      <td>{{ selectedRowData?.guiNumber }}</td>
+    </tr>
+    <tr>
+      <th>發票日期</th>
+      <td>{{ selectedRowData?.guiDate }}</td>
+    </tr>
+    <tr>
+      <th>客戶帳號</th>
+      <td>{{ selectedRowData?.customerId }}</td>
+    </tr>
+    <tr>
+      <th>統一編號</th>
+      <td>{{ selectedRowData?.taxId }}</td>
+    </tr>
+    <tr>
+      <th>服務中心代碼</th>
+      <td>{{ selectedRowData?.serviceCenterCode }}</td>
+    </tr>
+    <tr>
+      <th>銷售額</th>
+      <td>{{ selectedRowData?.salesAmount | currency }}</td>
+    </tr>
+    <tr>
+      <th>稅額</th>
+      <td>{{ selectedRowData?.taxAmount | currency }}</td>
+    </tr>
+    <tr>
+      <th>總計金額</th>
+      <td>{{ selectedRowData?.totalAmount | currency }}</td>
+    </tr>
+    <tr>
+      <th>開立類別</th>
+      <td>{{ selectedRowData?.issueType }}</td>
+    </tr>
+    <tr>
+      <th>申報狀態</th>
+      <td>{{ selectedRowData?.reportingStatus }}</td>
+    </tr>
+    <tr>
+      <th>課稅別</th>
+      <td>{{ selectedRowData?.taxCategory }}</td>
+    </tr>
+    <tr>
+      <th>發票狀態</th>
+      <td>{{ selectedRowData?.guiStatus }}</td>
+    </tr>
+  </table>
+</div>

@@ -13,7 +13,9 @@ import { Table } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { MenuModule } from 'primeng/menu';
 import { ContextMenuModule } from 'primeng/contextmenu';
-
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ConfirmPopupComponent } from '../../confirm-popup/confirm-popup.component';
 interface Bill {
   billNumber: string;
   shippingDate: string;
@@ -53,7 +55,6 @@ interface GUI {
   guiStatus: string;
 }
 
-
 @Component({
   selector: 'app-gui-maintain',
   templateUrl: './gui-maintain.component.html',
@@ -71,14 +72,17 @@ interface GUI {
     TagModule,
     PanelModule,
     MenuModule,
-    ContextMenuModule
+    ContextMenuModule,
+    DynamicDialogModule,
+    ConfirmPopupComponent
   ],
-  providers: [MessageService, CurrencyPipe],
+  providers: [MessageService, CurrencyPipe, DialogService]
 })
 
 export class GUIMaintainComponent {
   @ViewChild('dataTable', { static: false }) dataTable?: Table;
   @ViewChild('cm') cm!: any;
+  currentContextMenu: any = null;
   sidebarVisible: boolean = false;
   selectedCustomer: any;
   selectedServiceCenter: any;
@@ -103,18 +107,22 @@ export class GUIMaintainComponent {
   selectedBills: { invoiceNumber: string, billNumber: string }[] = [];
   invoiceSelections: { [invoiceNumber: string]: any[] } = {};
   menuItems: any[] = [];
-
-  constructor(private messageService: MessageService, private cd: ChangeDetectorRef) { }
+  menuItemsWithInvoice: any[] = [];
+  ref: DynamicDialogRef | undefined;
+  constructor(private messageService: MessageService, private cd: ChangeDetectorRef, public dialogService: DialogService) { }
 
   ngOnInit() {
     this.menuItems = [
-      { label: '發票作廢', icon: 'pi pi-times', command: () => this.cancelInvoice() },
-      { label: '允許改變發票', icon: 'pi pi-pencil', command: () => this.allowInvoiceChange() },
+      {
+        label: '發票作廢', icon: 'pi pi-times', command: (event: any) => this.cancelInvoice(event.originalEvent, this.selectedRow)
+      },
+      { label: '允許改開發票', icon: 'pi pi-pencil', command: () => this.allowInvoiceChange() },
       { label: '建立折讓單', icon: 'pi pi-copy', command: () => this.createCreditNote() },
       { label: '發票列印', icon: 'pi pi-print', command: () => this.printInvoice() },
       { label: '專案退稅', icon: 'pi pi-money-bill', command: () => this.projectTaxRefund() },
       { label: '詳細內容', icon: 'pi pi-info', command: () => this.viewDetails() }
     ];
+    this.menuItemsWithInvoice = [{ label: '詳細內容', icon: 'pi pi-info', command: () => this.viewDetails() }, { label: '帳單查詢', icon: 'pi pi-search', command: () => this.viewDetails() }];
     this.guiList = [
       {
         guiNumber: 'AB12345678',
@@ -313,31 +321,18 @@ export class GUIMaintainComponent {
         ]
       }
     ];
-
   }
 
   showContextMenu(event: MouseEvent, contextMenu: any) {
     event.preventDefault();
+
+    if (this.currentContextMenu) {
+      this.currentContextMenu.hide();
+    }
+
+    this.currentContextMenu = contextMenu;
+
     contextMenu.show(event);
-
-    const closeContextMenu = () => {
-      contextMenu.hide();
-      document.removeEventListener('keydown', escKeyListener);
-      document.removeEventListener('wheel', wheelListener);
-    };
-
-    const escKeyListener = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        closeContextMenu();
-      }
-    };
-
-    const wheelListener = () => {
-      closeContextMenu();
-    };
-
-    document.addEventListener('keydown', escKeyListener);
-    document.addEventListener('wheel', wheelListener);
 
     setTimeout(() => {
       const contextMenuElement = document.querySelector('.p-contextmenu') as HTMLElement;
@@ -356,10 +351,16 @@ export class GUIMaintainComponent {
     }, 0);
   }
 
-
-
-
-  cancelInvoice() {
+  cancelInvoice(event: Event, selectedRow: any) {
+    console.log("Event: ", event);
+    console.log("Selected Row: ", selectedRow);
+    this.dialogService.open(ConfirmPopupComponent, {
+      header: '發票作廢',
+      width: '50%',
+      data: {
+        selectedRowData: selectedRow
+      }
+    });
   }
 
   allowInvoiceChange() {
@@ -376,12 +377,15 @@ export class GUIMaintainComponent {
 
   viewDetails() {
   }
+
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
   }
+
   onRowExpand(event: any) {
     this.messageService.add({ severity: 'info', summary: 'Row Expanded', detail: 'GUI Number: ' + event.data.guiNumber });
   }
+
   onRowCollapse(event: any) {
     this.messageService.add({ severity: 'info', summary: 'Row Collapsed', detail: 'GUI Number: ' + event.data.guiNumber });
   }
@@ -474,7 +478,6 @@ export class GUIMaintainComponent {
     }
   }
 
-
   getCustomers() {
     return [
       { name: 'Customer 1' },
@@ -509,6 +512,7 @@ export class GUIMaintainComponent {
   }
 
   onRowSelect(event: any) {
+    this.selectedRow = event.data;
     console.log('Row selected', event.data);
   }
 
@@ -541,6 +545,20 @@ export class GUIMaintainComponent {
     return (bill: any) => `${bill.invoiceNumber}-${bill.billNumber}`;
   }
 
+  onHeaderCheckboxToggle() {
+    if (this.selectedRows && this.selectedRows.length > 0) {
+      this.selectedRow = this.selectedRows[0];
+    }
+  }
+
+  onTableMouseOver(event: MouseEvent) {
+    const rowElement = (event.target as HTMLElement).closest('tr');
+    if (rowElement) {
+      const rowIndex = Array.from(rowElement.parentNode!.children).indexOf(rowElement);
+      this.selectedRow = this.guiList[rowIndex];
+      console.log("Hovered Row Data: ", this.selectedRow);
+    }
+  }
 
   showMenu(event: MouseEvent) {
     this.cm.show(event);

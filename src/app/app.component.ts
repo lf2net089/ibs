@@ -22,6 +22,7 @@ interface MenuItem {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class AppComponent implements OnInit {
   isCollapsed = false;
   items: any[] = [];
