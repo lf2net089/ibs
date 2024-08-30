@@ -16,6 +16,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ConfirmPopupComponent } from '../../confirm-popup/confirm-popup.component';
+import { CreditNoteDialogComponent } from '../../credit-note-dialog/credit-note-dialog-component';
 interface Bill {
   billNumber: string;
   shippingDate: string;
@@ -74,7 +75,8 @@ interface GUI {
     MenuModule,
     ContextMenuModule,
     DynamicDialogModule,
-    ConfirmPopupComponent
+    ConfirmPopupComponent,
+    CreditNoteDialogComponent
   ],
   providers: [MessageService, CurrencyPipe, DialogService]
 })
@@ -367,6 +369,25 @@ export class GUIMaintainComponent {
   }
 
   createCreditNote() {
+    if (!this.selectedRow) {
+      console.error("No row selected.");
+      return;
+    }
+    const ref = this.dialogService.open(CreditNoteDialogComponent, {
+      header: '開立折讓單',
+      width: '50%',
+      data: {
+        selectedRowData: this.selectedRow
+      }
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Credit note confirmed', result);
+      } else {
+        console.log('Credit note creation canceled');
+      }
+    });
   }
 
   printInvoice() {

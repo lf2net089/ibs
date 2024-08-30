@@ -1,0 +1,53 @@
+<div style="display: flex; align-items: flex-start;">
+  <app-invoice-details [selectedRowData]="selectedRowData"></app-invoice-details>
+
+  <div style="flex: 1; margin-left: 20px;">
+    <div class="p-field" style="margin-bottom: 20px; display: flex; align-items: center;">
+      <label for="issueType" [style.marginRight.px]="10" [style.minWidth.px]="100"><strong>開立別</strong></label>
+      <p-dropdown [(ngModel)]="selectedIssueType" [options]="issueTypes" placeholder="Select Issue Type" [style.flex]="'1'"></p-dropdown>
+    </div>
+    <div class="p-field" style="margin-bottom: 20px; display: flex; align-items: center;">
+      <label for="creditNoteDate" [style.marginRight.px]="10" [style.minWidth.px]="100"><strong>折讓日期</strong></label>
+      <p-calendar [(ngModel)]="creditNoteDate" inputId="creditNoteDate" [style.flex]="'1'"></p-calendar>
+    </div>
+    <div class="p-field" style="margin-bottom: 20px; display: flex; align-items: center;">
+      <label for="creditNoteAmount" [style.marginRight.px]="10" [style.minWidth.px]="100"><strong>折讓金額</strong></label>
+      <input id="creditNoteAmount" type="text" pInputText [(ngModel)]="creditNoteAmount" [style.flex]="'1'" />
+    </div>
+    <div class="p-field" style="margin-bottom: 20px; display: flex; align-items: center;">
+      <label for="creditNoteTaxAmount" [style.marginRight.px]="10" [style.minWidth.px]="100"><strong>折讓稅額</strong></label>
+      <input id="creditNoteTaxAmount" type="text" pInputText [(ngModel)]="creditNoteTaxAmount" disabled [style.flex]="'1'" />
+    </div>
+    <div class="p-field" style="margin-bottom: 20px; display: flex; align-items: center;">
+      <label for="remarks" [style.marginRight.px]="10" [style.minWidth.px]="100"><strong>折讓備註</strong></label>
+      <textarea id="remarks" pInputTextarea [(ngModel)]="creditNoteRemarks" [style.flex]="'1'" [style.height.px]="120" [style.resize]="'none'"></textarea>
+    </div>
+    <div class="p-field" style="margin-bottom: 20px; display: flex; align-items: center;">
+      <label for="reportingMonth" [style.marginRight.px]="10" [style.minWidth.px]="100"><strong>申報月份</strong></label>
+      <p-dropdown [options]="reportingMonths" [(ngModel)]="selectedReportingMonth" placeholder="Select Reporting Month" [style.flex]="'1'"></p-dropdown>
+    </div>
+  </div>
+</div>
+
+<div class="p-field">
+  <label for="fileUpload"><strong>折讓單附件</strong></label>
+  <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                (onUpload)="onUpload($event)"
+                [multiple]="true"
+                accept="image/*"
+                maxFileSize="1000000">
+    <ng-template pTemplate="content">
+      <ul *ngIf="uploadedFiles.length">
+        <li *ngFor="let file of uploadedFiles">
+          {{ file.name }} - {{ file.size }} bytes
+        </li>
+      </ul>
+    </ng-template>
+  </p-fileUpload>
+</div>
+
+<div class="p-dialog-footer" style="display: flex; justify-content: flex-end; gap: 10px;">
+  <p-button label="取消" icon="pi pi-times" class="p-button-secondary" (click)="cancel()"></p-button>
+  <p-button label="確認" icon="pi pi-check" (click)="confirm()"></p-button>
+  <p-confirmDialog></p-confirmDialog>
+</div>
